@@ -2,14 +2,30 @@
 using System;
 using System.Data.SqlClient;
 
-const string connectionString = "Server=10.211.55.2,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$";
+const string connectionString 
+    = "Server=10.211.55.2,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
 
-var connection = new SqlConnection(connectionString);
+using (var connection = new SqlConnection(connectionString))
+{
 
-connection.Open();
+    connection.Open();
+    Console.WriteLine("Conexão aberta!");
 
-Console.WriteLine("Conexão aberta!");
+    // SELECT
+    using (var command = new SqlCommand())
+    {
+        command.Connection = connection;
+        command.CommandType = System.Data.CommandType.Text;
+        command.CommandText = "SELECT [Id], [Title] FROM [Category]";
 
-connection.Close();
+        var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            Console.WriteLine($"{reader["Id"]} - {reader["Title"]}");
+        }
+    }
 
-Console.WriteLine(connectionString);
+    connection.Close();
+    Console.WriteLine("Conexão fechada!");
+}
+
