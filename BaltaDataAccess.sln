@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34526.213
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaltaDataAccess.aula01", "BaltaDataAccess.aula01\BaltaDataAccess.aula01.csproj", "{DD0F8FD7-124E-45A7-81CD-23BA2279D8BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaltaDataAccess.aula01", "BaltaDataAccess.aula01\BaltaDataAccess.aula01.csproj", "{DD0F8FD7-124E-45A7-81CD-23BA2279D8BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaltaDataAccess.WithDapper", "BaltaDataAccess.WithDapper\BaltaDataAccess.WithDapper.csproj", "{8CB7E935-3536-4146-894F-90795E252193}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DD0F8FD7-124E-45A7-81CD-23BA2279D8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD0F8FD7-124E-45A7-81CD-23BA2279D8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD0F8FD7-124E-45A7-81CD-23BA2279D8BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB7E935-3536-4146-894F-90795E252193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB7E935-3536-4146-894F-90795E252193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB7E935-3536-4146-894F-90795E252193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB7E935-3536-4146-894F-90795E252193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
