@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Dapper;
 using BaltaDataAccess.WithDapper.Entities;
 
