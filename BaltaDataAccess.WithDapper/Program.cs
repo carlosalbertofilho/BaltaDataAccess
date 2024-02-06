@@ -18,23 +18,25 @@ var category = new Category
 };
     
 
-var insertSql
-    = @"INSERT INTO 
-           [Category]
-    VALUES (@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
-
 
 using (var connection = new SqlConnection(connectionString))
 {
 
     // Insert Category
-    var rows = connection.Execute(insertSql, category);
-    Console.WriteLine($"{rows} rows inserted");
+    CreateCategory(connection, category);
 
     // Query Category
+    ListCategories(connection);
+
+
+}
+
+
+static void ListCategories(SqlConnection connection)
+{
     var categories
         = connection.Query<Category>(
-                @"SELECT 
+                           @"SELECT 
                     [Id], 
                     [Title], 
                     [Url], 
@@ -49,6 +51,15 @@ using (var connection = new SqlConnection(connectionString))
     {
         Console.WriteLine($"{item.Id} - {item.Title} - {item.Url} - {item.Summary}");
     }
+}
 
+static void CreateCategory(SqlConnection connection, Category category)
+{
+    var insertSql
+        = @"INSERT INTO 
+           [Category]
+    VALUES (@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
 
+    var rows = connection.Execute(insertSql, category);
+    Console.WriteLine($"{rows} rows inserted");
 }
