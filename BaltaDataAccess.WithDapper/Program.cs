@@ -2,8 +2,13 @@
 using Dapper;
 using BaltaDataAccess.WithDapper.Entities;
 
+
+/*
+ * Docker Test H = 192.168.122.1
+ * Docker Test C = 10.211.55.2
+ */
 const string connectionString
-    = "Server=10.211.55.2,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
+    = "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
 
 var guidTemp = Guid.NewGuid();
 
@@ -17,7 +22,30 @@ var category = new Category
     Description = "Categoria destinada a serviços do AWS",
     Featured = true
 };
-    
+
+List<Category> categories =
+    [
+        new Category
+        {
+            Id = Guid.NewGuid(),
+            Title = "Amazon EC2",
+            Url = "amazon-ec2",
+            Summary = "Categoria destinada ao estudo de EC2 Estâncias",
+            Order = 9,
+            Description = "AWS Cloud - EC2",
+            Featured = false
+        },
+        new Category
+        {
+            Id = Guid.NewGuid(),
+            Title = "Amazon S3",
+            Url = "amazon-s3",
+            Summary = "Categoria destinada ao estudo de S3",
+            Order = 10,
+            Description = "AWS Cloud - S3",
+            Featured = false
+        },
+    ];
 
 
 using (var connection = new SqlConnection(connectionString))
@@ -26,23 +54,27 @@ using (var connection = new SqlConnection(connectionString))
     // Insert Category
     CreateCategory(connection, category);
 
-    
+
     // Update Category Title
-    UpdateCategoryTitle(connection, 
-        new Category { 
-            Id = new Guid("b4c5af73-7e02-4ff7-951c-f69ee1729cac"), 
-            Title = "Amazon AWS Cloud" 
+    UpdateCategoryTitle(connection,
+        new Category
+        {
+            Id = new Guid("b4c5af73-7e02-4ff7-951c-f69ee1729cac"),
+            Title = "Amazon AWS Cloud"
         });
 
     // Delete Category
     DeleteCategory(connection, guidTemp);
+
+    // Insert Many Categories
+    CreateManyCategory(connection, categories);
 
 
     // Query Category
     ListCategories(connection);
 }
 
-
+// CRUD 
 static void ListCategories(SqlConnection connection)
 {
     var categories
@@ -94,4 +126,17 @@ static void DeleteCategory(SqlConnection connection, Guid id)
 
     var rows = connection.Execute(deleteSql, new { Id = id });
     Console.WriteLine($"{rows} rows deleted");
+}
+
+
+// Many Execute
+static void CreateManyCategory(SqlConnection connection, List<Category> categoryList)
+{
+    var insertSql
+       = @"INSERT INTO 
+           [Category]
+    VALUES (@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
+
+    var rows = connection.Execute(insertSql, categoryList);
+    Console.WriteLine($"{rows} rows inserted");
 }

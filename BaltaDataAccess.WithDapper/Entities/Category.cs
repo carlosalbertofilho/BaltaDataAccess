@@ -14,5 +14,7 @@
 
         public bool? Featured { get; set; }
 
+
+
     }
 }
