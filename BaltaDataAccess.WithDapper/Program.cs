@@ -72,6 +72,12 @@ using (var connection = new SqlConnection(connectionString))
 
     // Query Category
     ListCategories(connection);
+
+
+    
+    // Execute Procedure
+    ExecuteProcedure(connection, new Guid("893b03bd-aaf4-4184-a3d5-b06a93e99e90"));
+
 }
 
 // CRUD 
@@ -139,4 +145,19 @@ static void CreateManyCategory(SqlConnection connection, List<Category> category
 
     var rows = connection.Execute(insertSql, categoryList);
     Console.WriteLine($"{rows} rows inserted");
+}
+
+
+// Procedure Execute
+static void ExecuteProcedure(SqlConnection connection, Guid studentId)
+{
+    var procedure = "[spDeleteStudent]";
+    var pars = new { studentId };
+
+    var affectedRows = connection.Execute(
+        procedure,
+        pars,
+        commandType: System.Data.CommandType.StoredProcedure);
+
+    Console.WriteLine($"{affectedRows} rows affected");
 }
