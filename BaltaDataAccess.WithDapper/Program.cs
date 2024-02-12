@@ -5,10 +5,12 @@ using BaltaDataAccess.WithDapper.Entities;
 
 /*
  * Docker Test H = 192.168.122.1
+ * "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
  * Docker Test C = 10.211.55.2
+ * "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
  */
 const string connectionString
-    = "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
+    = "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
 
 var guidTemp = Guid.NewGuid();
 
@@ -76,7 +78,7 @@ using (var connection = new SqlConnection(connectionString))
 
     
     // Execute Procedure
-    ExecuteProcedure(connection, new Guid("893b03bd-aaf4-4184-a3d5-b06a93e99e90"));
+    // ExecuteProcedure(connection, new Guid("893b03bd-aaf4-4184-a3d5-b06a93e99e90"));
 
 }
 
@@ -85,7 +87,7 @@ static void ListCategories(SqlConnection connection)
 {
     var categories
         = connection.Query<Category>(
-                           @"SELECT 
+               @"SELECT 
                     [Id], 
                     [Title], 
                     [Url], 
@@ -107,7 +109,7 @@ static void CreateCategory(SqlConnection connection, Category category)
     var insertSql
         = @"INSERT INTO 
            [Category]
-    VALUES (@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
+         VALUES (@Id, @Title, @Url, @Summary, @Order, @Description, @Featured)";
 
     var rows = connection.Execute(insertSql, category);
     Console.WriteLine($"{rows} rows inserted");
