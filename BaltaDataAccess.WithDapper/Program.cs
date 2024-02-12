@@ -76,7 +76,7 @@ using (var connection = new SqlConnection(connectionString))
     ListCategories(connection);
 
 
-    
+
     // Execute Procedure
     // ExecuteProcedure(connection, new Guid("893b03bd-aaf4-4184-a3d5-b06a93e99e90"));
 
