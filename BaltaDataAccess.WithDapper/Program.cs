@@ -80,7 +80,21 @@ using (var connection = new SqlConnection(connectionString))
     // Execute Procedure
     // ExecuteProcedure(connection, new Guid("893b03bd-aaf4-4184-a3d5-b06a93e99e90"));
 
-    Console.ReadLine();    
+    // Execute Read Procedure
+    ExecuteReadProcedure(connection, new Guid("09ce0b7b-cfca-497b-92c0-3290ad9d5142"));
+
+    // Execute Scalar
+    ExecuteScalar(connection, new Category
+    {
+        Title = "Amazon RDS",
+        Url = "amazon-RDS",
+        Summary = " Amazon Relational Database Service (Amazon RDS)",
+        Order = 10,
+        Description = "AWS Cloud - RDS",
+        Featured = false
+    });
+
+    Console.ReadLine();
 }
 
 // CRUD 
@@ -163,4 +177,33 @@ static void ExecuteProcedure(SqlConnection connection, Guid studentId)
         commandType: System.Data.CommandType.StoredProcedure);
 
     Console.WriteLine($"{affectedRows} rows affected");
+}
+
+static void ExecuteReadProcedure(SqlConnection connection, Guid categoryID)
+{
+    var procedure = "[spGetCoursesByCategory]";
+    var pars = new { categoryID };
+    var courses = connection.Query(
+        procedure, 
+        pars,
+        commandType: System.Data.CommandType.StoredProcedure);
+
+    foreach (var course in courses )
+    {
+        Console.WriteLine($"{course.Id} - {course.Title}");
+    }
+
+}
+
+// Execute Scalar
+static void ExecuteScalar(SqlConnection connection, Category category)
+{
+    var insertSql 
+        = @"INSERT INTO [Category]
+          OUTPUT inserted.[Id]
+          VALUES (NEWID(), @Title, @Url, @Summary, @Order, @Description, @Featured)";
+
+    var id = connection.ExecuteScalar(insertSql, category);
+    Console.WriteLine($"A categoria inserida foi {id}");
+
 }
