@@ -170,7 +170,7 @@ static void ExecuteReadProcedure(SqlConnection connection, Guid categoryID)
 {
     var procedure = "[spGetCoursesByCategory]";
     var pars = new { categoryID };
-    var courses = connection.Query(
+    var courses = connection.Query<Course>(
         procedure,
         pars,
         commandType: System.Data.CommandType.StoredProcedure);
