@@ -4,13 +4,13 @@ using BaltaDataAccess.WithDapper.Entities;
 
 
 /*
- * Docker Test H = 10.211.55.2
- * "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
- * Docker Test C 
+ * Docker Test C = 10.211.55.2
+ * "Server=10.211.55.2,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
+ * Docker Test H 
  * "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
  */
 const string connectionString
-    = "Server=10.211.55.2,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
+    = "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
 
 var guidTemp = Guid.NewGuid();
 
