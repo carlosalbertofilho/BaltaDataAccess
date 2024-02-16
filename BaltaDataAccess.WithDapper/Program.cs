@@ -90,7 +90,7 @@ using (var connection = new SqlConnection(connectionString))
 
     /*OneToOne(connection);*/
 
-    Like(connection);
+    Like(connection, "Backend");
 
     Console.ReadLine();
 }
@@ -320,14 +320,14 @@ static void SelectIn(SqlConnection connection)
 }
 
 // Like 
-static void Like(SqlConnection connection)
+static void Like(SqlConnection connection, string term)
 {
     var query =
         @"SELECT * FROM [Course] WHERE [Title] Like @args";
 
     var items = connection.Query<Course>(query, new
     {
-        args = "%backend%"
+        args = $"%{term}%"
     });
 
     foreach (var item in items)
