@@ -10,7 +10,7 @@ using BaltaDataAccess.WithDapper.Entities;
  * "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
  */
 const string connectionString
-    = "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
+    = "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
 
 var guidTemp = Guid.NewGuid();
 
@@ -100,18 +100,11 @@ using (var connection = new SqlConnection(connectionString))
 // CRUD 
 static void ListCategories(SqlConnection connection)
 {
-    var categories
-        = connection.Query<Category>(
-               @"SELECT 
-                    [Id], 
-                    [Title], 
-                    [Url], 
-                    [Summary],
-                    [Order],
-                    [Description],
-                    [Featured]
-                FROM [Category]"
-            );
+    var selectSql
+        = @"SELECT [Id], [Title], [Url], [Summary], [Order], [Description], [Featured]
+          FROM [Category]";
+
+    var categories = connection.Query<Category>(selectSql);
 
     foreach (var item in categories)
     {

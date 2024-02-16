@@ -32,17 +32,18 @@ SELECT TOP (1000) [Id]
       ,[LastUpdateDate]
   FROM [balta].[dbo].[StudentCourse]
 
+
 INSERT INTO [Student]
     (Id, Name, Email, Document, Phone, Birthdate, CreateDate)
 VALUES
-    ('893b03bd-aaf4-4184-a3d5-b06a93e99e90',
-    'Ruan Minto',
-    'ruan.minto@hupe.br',
-    12346789231,
-    21093423431,
+    ('5d8cf24e-e717-9a02-2443-01b300000000',
+    'Carlos Filho',
+    'carlos.filho@hupe.br',
+    27825485471,
+    21221323254,
     null,
     GETDATE())
-    
+
 INSERT INTO [StudentCourse]
     (CourseId, StudentId, Progress, Favorite, StartDate, LastUpdateDate)
 VALUES 
@@ -55,6 +56,17 @@ VALUES
         GETDATE()
     )
 
+INSERT INTO [Student]
+    (Id, Name, Email, Document, Phone, Birthdate, CreateDate)
+VALUES
+    ('893b03bd-aaf4-4184-a3d5-b06a93e99e90',
+    'Ruan Minto',
+    'ruan.minto@hupe.br',
+    12346789231,
+    21093423431,
+    null,
+    GETDATE())
+    
 
 INSERT INTO [StudentCourse]
     (CourseId, StudentId, Progress, Favorite, StartDate, LastUpdateDate)
