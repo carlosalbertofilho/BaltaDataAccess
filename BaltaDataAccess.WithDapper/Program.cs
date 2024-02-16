@@ -4,30 +4,46 @@ using BaltaDataAccess.WithDapper.Entities;
 
 
 /*
- * Docker Test H = 192.168.122.1
+ * Docker Test H = 10.211.55.2
  * "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
- * Docker Test C = 10.211.55.2
+ * Docker Test C 
  * "Data Source=DESKTOP-4P9S4FF\\SQLEXPRESS;Initial Catalog=balta;Integrated Security=True; TrustServerCertificate=True;";
  */
 const string connectionString
-    = "Server=192.168.122.1,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
+    = "Server=10.211.55.2,1433;Database=balta;User Id=sa;Password=1q2w3e4r@#$;Trusted_Connection=False; TrustServerCertificate=True;";
 
 var guidTemp = Guid.NewGuid();
 
-var category = new Category
+using (var connection = new SqlConnection(connectionString))
 {
-    Id = guidTemp,
-    Title = "Amazon AWS",
-    Url = "amazon",
-    Summary = "AWS Cloud",
-    Order = 8,
-    Description = "Categoria destinada a serviços do AWS",
-    Featured = true
-};
 
-List<Category> categories =
-    [
+    // Insert Category
+    CreateCategory(connection, new Category
+    {
+        Id = guidTemp,
+        Title = "Amazon AWS",
+        Url = "amazon",
+        Summary = "AWS Cloud",
+        Order = 8,
+        Description = "Categoria destinada a serviços do AWS",
+        Featured = true
+    });
+
+
+    // Update Category Title
+    UpdateCategoryTitle(connection,
         new Category
+        {
+            Id = new Guid("b4c5af73-7e02-4ff7-951c-f69ee1729cac"),
+            Title = "Amazon AWS Cloud"
+        });
+
+    // Delete Category
+    DeleteCategory(connection, guidTemp);
+
+    // Insert Many Categories
+    CreateManyCategory(connection,
+    [   new Category
         {
             Id = Guid.NewGuid(),
             Title = "Amazon EC2",
@@ -47,29 +63,7 @@ List<Category> categories =
             Description = "AWS Cloud - S3",
             Featured = false
         },
-    ];
-
-
-using (var connection = new SqlConnection(connectionString))
-{
-
-    // Insert Category
-    CreateCategory(connection, category);
-
-
-    // Update Category Title
-    UpdateCategoryTitle(connection,
-        new Category
-        {
-            Id = new Guid("b4c5af73-7e02-4ff7-951c-f69ee1729cac"),
-            Title = "Amazon AWS Cloud"
-        });
-
-    // Delete Category
-    DeleteCategory(connection, guidTemp);
-
-    // Insert Many Categories
-    CreateManyCategory(connection, categories);
+    ]);
 
 
     // Query Category
@@ -177,11 +171,11 @@ static void ExecuteReadProcedure(SqlConnection connection, Guid categoryID)
     var procedure = "[spGetCoursesByCategory]";
     var pars = new { categoryID };
     var courses = connection.Query(
-        procedure, 
+        procedure,
         pars,
         commandType: System.Data.CommandType.StoredProcedure);
 
-    foreach (var course in courses )
+    foreach (var course in courses)
     {
         Console.WriteLine($"{course.Id} - {course.Title}");
     }
@@ -191,7 +185,7 @@ static void ExecuteReadProcedure(SqlConnection connection, Guid categoryID)
 // Execute Scalar
 static void ExecuteScalar(SqlConnection connection, Category category)
 {
-    var insertSql 
+    var insertSql
         = @"INSERT INTO [Category]
           OUTPUT inserted.[Id]
           VALUES (NEWID(), @Title, @Url, @Summary, @Order, @Description, @Featured)";
