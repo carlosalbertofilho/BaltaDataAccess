@@ -90,7 +90,7 @@ using (var connection = new SqlConnection(connectionString))
 
     /*OneToOne(connection);*/
 
-    QueryMutiple(connection);
+    SelectIn(connection);
 
     Console.ReadLine();
 }
@@ -295,5 +295,26 @@ static void QueryMutiple(SqlConnection connection)
         {
             Console.WriteLine($"{course.Title}");
         }
+    }
+}
+
+// SelectIn
+static void SelectIn(SqlConnection connection)
+{
+    var selectInQuery =
+        @"SELECT * FROM [Career] WHERE [Id] IN @Id";
+
+    var careerItems = connection.Query<Career>(selectInQuery, new
+    {
+        Id = new[]
+        {
+            "01ae8a85-b4e8-4194-a0f1-1c6190af54cb",
+            "4327ac7e-963b-4893-9f31-9a3b28a4e72b"
+        }
+    });
+
+    foreach(var career in careerItems)
+    {
+        Console.WriteLine(career.Title);
     }
 }
