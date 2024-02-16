@@ -18,7 +18,7 @@ using (var connection = new SqlConnection(connectionString))
 {
 
     // Insert Category
-    CreateCategory(connection, new Category
+    /*CreateCategory(connection, new Category
     {
         Id = guidTemp,
         Title = "Amazon AWS",
@@ -27,22 +27,22 @@ using (var connection = new SqlConnection(connectionString))
         Order = 8,
         Description = "Categoria destinada a serviços do AWS",
         Featured = true
-    });
+    });*/
 
 
     // Update Category Title
-    UpdateCategoryTitle(connection,
+    /*UpdateCategoryTitle(connection,
         new Category
         {
             Id = new Guid("b4c5af73-7e02-4ff7-951c-f69ee1729cac"),
             Title = "Amazon AWS Cloud"
-        });
+        });*/
 
     // Delete Category
-    DeleteCategory(connection, guidTemp);
+    /*DeleteCategory(connection, guidTemp);*/
 
     // Insert Many Categories
-    CreateManyCategory(connection,
+    /*CreateManyCategory(connection,
     [   new Category
         {
             Id = Guid.NewGuid(),
@@ -63,11 +63,11 @@ using (var connection = new SqlConnection(connectionString))
             Description = "AWS Cloud - S3",
             Featured = false
         },
-    ]);
+    ]);*/
 
 
     // Query Category
-    ListCategories(connection);
+    /*ListCategories(connection);*/
 
 
 
@@ -75,18 +75,20 @@ using (var connection = new SqlConnection(connectionString))
     // ExecuteProcedure(connection, new Guid("893b03bd-aaf4-4184-a3d5-b06a93e99e90"));
 
     // Execute Read Procedure
-    ExecuteReadProcedure(connection, new Guid("09ce0b7b-cfca-497b-92c0-3290ad9d5142"));
+    /*ExecuteReadProcedure(connection, new Guid("09ce0b7b-cfca-497b-92c0-3290ad9d5142"));*/
 
     // Execute Scalar
-    ExecuteScalar(connection, new Category
+    /*ExecuteScalar(connection, new Category
     {
         Title = "Amazon RDS",
-        Url = "amazon-RDS",
+        Url = "amazon-rds",
         Summary = " Amazon Relational Database Service (Amazon RDS)",
-        Order = 10,
+        Order = 11,
         Description = "AWS Cloud - RDS",
         Featured = false
-    });
+    });*/
+
+    OneToOne(connection);
 
     Console.ReadLine();
 }
@@ -193,4 +195,30 @@ static void ExecuteScalar(SqlConnection connection, Category category)
     var id = connection.ExecuteScalar(insertSql, category);
     Console.WriteLine($"A categoria inserida foi {id}");
 
+}
+
+// One to One
+static void OneToOne(SqlConnection connection)
+{
+    var sql = @"
+        SELECT 
+             * 
+        FROM 
+             [CareerItem] 
+        INNER JOIN 
+             [Course] ON [CareerItem].[CourseId] = [Course].[Id]
+    ";
+
+    var items = connection.Query<CareerItem, Course, CareerItem>( 
+        sql,
+        (careerItem, course) => {
+            careerItem.Course = course;
+            return careerItem;
+        },
+        splitOn: "Id");
+
+    foreach(var item in items)
+    {
+        Console.WriteLine($"{item.Title} - {item.Course?.Title}");
+    }
 }
