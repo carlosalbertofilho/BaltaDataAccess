@@ -88,7 +88,9 @@ using (var connection = new SqlConnection(connectionString))
         Featured = false
     });*/
 
-    OneToOne(connection);
+    /*OneToOne(connection);*/
+
+    QueryMutiple(connection);
 
     Console.ReadLine();
 }
@@ -209,16 +211,89 @@ static void OneToOne(SqlConnection connection)
              [Course] ON [CareerItem].[CourseId] = [Course].[Id]
     ";
 
-    var items = connection.Query<CareerItem, Course, CareerItem>( 
+    var items = connection.Query<CareerItem, Course, CareerItem>(
         sql,
-        (careerItem, course) => {
+        (careerItem, course) =>
+        {
             careerItem.Course = course;
             return careerItem;
         },
         splitOn: "Id");
 
-    foreach(var item in items)
+    foreach (var item in items)
     {
         Console.WriteLine($"{item.Title} - {item.Course?.Title}");
+    }
+}
+
+// One to Many
+static void OneToMany(SqlConnection connection)
+{
+    var sql = @"
+    SELECT
+        [Career].[Id],
+        [Career].[Title],
+        [CareerItem].[CareerId],
+        [CareerItem].[Title]
+    FROM
+        [Career]
+    INNER JOIN
+        [CareerItem] ON [CareerItem].[CareerId] = [Career].[Id]
+    ORDER BY
+        [Career].[Title]
+    ";
+
+    var careers = new List<Career>();
+
+    connection.Query<Career, CareerItem, Career>(
+        sql,
+        (career, careerItem) =>
+        {
+            var currentCareer
+                = careers.Where(x => x.Id == career.Id)
+                .FirstOrDefault();
+            if (currentCareer is null)
+            {
+                currentCareer = career;
+                currentCareer.Items.Add(careerItem);
+                careers.Add(currentCareer);
+            }
+            else
+            {
+                currentCareer.Items.Add(careerItem);
+            }
+            return career;
+        },
+        splitOn: "CareerId");
+
+    foreach (var career in careers)
+    {
+        Console.WriteLine($"{career.Title}");
+        foreach (var item in career.Items)
+        {
+            Console.WriteLine($" -> {item.Title} - Curso: {item.Course?.Title}");
+        }
+    }
+
+}
+
+// Many to Many
+static void QueryMutiple(SqlConnection connection)
+{
+    var query = "SELECT * FROM [Category]; SELECT * FROM [Course]";
+    using (var multi = connection.QueryMultiple(query))
+    {
+        var categories = multi.Read<Category>().ToList();
+        var courses = multi.Read<Course>().ToList();
+
+        foreach (var category in categories)
+        {
+            Console.WriteLine($"{category.Title}");
+        }
+
+        foreach (var course in courses)
+        {
+            Console.WriteLine($"{course.Title}");
+        }
     }
 }
