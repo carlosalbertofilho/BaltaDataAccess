@@ -1,6 +1,9 @@
 ﻿
+using Dapper.Contrib.Extensions;
+
 namespace Blog.Models
 {
+    [Table("[Role]")]
     internal class Role
     {
         public int Id { get; set; }
