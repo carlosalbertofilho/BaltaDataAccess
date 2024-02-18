@@ -41,3 +41,10 @@ VALUES
 
 SELECT * FROM [Role]
 
+INSERT INTO [Tag]
+([Name],[Slug])
+VALUES
+    ('ASP.NET', 'aspnet')
+,   ('Blazor IU', 'balzor')
+
+SELECT * FROM [Tag]

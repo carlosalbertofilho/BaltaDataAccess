@@ -1,4 +1,5 @@
-﻿using Blog.Repositories;
+﻿using Blog.Models;
+using Blog.Repositories;
 using Microsoft.Data.SqlClient;
 
 /*
@@ -12,11 +13,18 @@ const string CONNECTION_STRING
 
 SqlConnection connection = new(CONNECTION_STRING);
 
-RoleRepository roleRepository = new(connection);
+Repository<Role> roleRepository = new(connection);
+Repository<User> userRepository = new(connection);
+Repository<Tag> tagRepository = new(connection);
 
-roleRepository.GetRoles()?.ForEach(user => Console.WriteLine(user));
+userRepository.GetAll()?.ForEach(item => Console.WriteLine(item));
 
 Console.WriteLine("\n-------------\n");
-Console.WriteLine(roleRepository.GetRole(1));
+
+roleRepository.GetAll()?.ForEach(item => Console.WriteLine(item));
+
+Console.WriteLine("\n-------------\n");
+
+tagRepository.GetAll()?.ForEach(item => Console.WriteLine(item));
 
 
