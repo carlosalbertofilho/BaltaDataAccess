@@ -4,7 +4,7 @@ using Dapper.Contrib.Extensions;
 namespace Blog.Models
 {
     [Table("[Post]")]
-    internal class Post
+    public class Post
     {
         public int Id { get; set; }
         public string? Title { get; set; }
@@ -13,8 +13,8 @@ namespace Blog.Models
         public string? Body { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdate { get; set; }
-        public List<Category>? Categories { get; set; }
-        public List<Tag>? Tags { get; set; }
+
+        [Write(false)]
         public User? Author { get; set; }
     }
 }

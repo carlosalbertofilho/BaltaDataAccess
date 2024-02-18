@@ -14,7 +14,9 @@ namespace Blog.Models
         public string? Image { get; set; }
         public string? Slug { get; set; }
         public DateTime CreatedAt { get; set; }
-        //public List<Role>? Roles { get; set; }
+
+        [Write(false)]
+        public List<Role> Roles { get; set; } = [];
 
         public override string ToString()
         {
