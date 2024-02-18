@@ -32,6 +32,7 @@ VALUES
     ,'maria-da-silva');
 
 SELECT * FROM [dbo].[User]
+SELECT * FROM [Role]
 
 INSERT INTO [Role]
 ([Name] ,[Slug])
@@ -48,3 +49,22 @@ VALUES
 ,   ('Blazor IU', 'balzor')
 
 SELECT * FROM [Tag]
+
+INSERT INTO [UserRole]
+VALUES
+    (1, 1)
+,   (1, 3)
+,   (2, 3)
+,   (3, 2)
+,   (4, 3)
+,   (5, 2)
+
+SELECT * FROM [UserRole]
+
+SELECT
+    [User].*,
+    [Role].*
+FROM
+    [User]
+    LEFT JOIN [UserRole] ON [UserRole].[UserId] = [User].[Id]
+    LEFT JOIN [Role] ON [UserRole].[RoleId] = [Role].[Id]
