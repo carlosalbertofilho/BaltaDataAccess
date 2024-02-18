@@ -33,3 +33,11 @@ VALUES
 
 SELECT * FROM [dbo].[User]
 
+INSERT INTO [Role]
+([Name] ,[Slug])
+VALUES
+ ('admin' ,'admin')
+,('suporte', 'suporte')
+
+SELECT * FROM [Role]
+
