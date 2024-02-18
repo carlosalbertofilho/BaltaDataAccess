@@ -4,7 +4,7 @@ using Dapper.Contrib.Extensions;
 namespace Blog.Models
 {
     [Table("[User]")]
-    internal class User
+    public class User
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -15,5 +15,10 @@ namespace Blog.Models
         public string? Slug { get; set; }
         public DateTime CreatedAt { get; set; }
         //public List<Role>? Roles { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.Name} - {this.Email}";
+        }
     }
 }
