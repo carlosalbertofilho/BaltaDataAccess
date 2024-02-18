@@ -13,6 +13,8 @@ const string CONNECTION_STRING
     = """Data Source=DESKTOP-4P9S4FF\SQLEXPRESS;Initial Catalog=Blog;Integrated Security=True; TrustServerCertificate=True;""";
 
 ReadUsers();
+Console.WriteLine("\n-------------\n");
+ReadUser(1);
 
 static void ReadUsers()
 {
@@ -22,4 +24,11 @@ static void ReadUsers()
     {
         Console.WriteLine($"{user.Name} - {user.Email}");
     }
+}
+
+static void ReadUser(int userId)
+{
+    using var connection = new SqlConnection(CONNECTION_STRING);
+    var user = connection.Get<User>(userId);
+    Console.WriteLine($"{user.Name} - {user.Email}");
 }
