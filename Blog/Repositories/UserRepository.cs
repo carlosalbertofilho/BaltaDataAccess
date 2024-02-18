@@ -11,6 +11,8 @@ namespace Blog.Repositories
         private readonly SqlConnection _connection = connection;
 
 
+        private readonly SqlConnection _connection = new(CONNECTION_STRING);
+
         /// <summary>
         /// Reads all users from the database and prints their name and email.
         /// </summary>
