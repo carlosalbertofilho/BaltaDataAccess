@@ -12,24 +12,11 @@ const string CONNECTION_STRING
 
 SqlConnection connection = new(CONNECTION_STRING);
 
-UserRepository userRepository = new(connection);
+RoleRepository roleRepository = new(connection);
 
-userRepository.GetUsers()?.ForEach(user => Console.WriteLine(user));
-
-Console.WriteLine("\n-------------\n");
-Console.WriteLine(userRepository.GetUser(1));
+roleRepository.GetRoles()?.ForEach(user => Console.WriteLine(user));
 
 Console.WriteLine("\n-------------\n");
-//userRepository.Create(new User
-//{
-//    Name = "Equipe Blog"
-//,   Email = "equipe@teste.com"
-//,   Bio  = "Equipe do Blog"
-//,   PasswordHash = "HASH"
-//,   Image = "https://th.bing.com/th/id/OIP.XfN_dUTzgeHXLeHD9DK0uwAAAA?rs=1&pid=ImgDetMain"
-//,   Slug = "equipe-blog"
-//,   CreatedAt = DateTime.Now
-//});
-//Console.WriteLine("\n-------------\n");
-userRepository.Update(15, name: "Equipe Blog | Suporte", bio: "Equipe de suporte");
+Console.WriteLine(roleRepository.GetRole(1));
+
 

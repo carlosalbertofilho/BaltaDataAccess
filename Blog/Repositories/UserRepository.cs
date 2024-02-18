@@ -7,11 +7,9 @@ namespace Blog.Repositories
 {
     public class UserRepository(SqlConnection connection)
     {
-  
+
         private readonly SqlConnection _connection = connection;
 
-
-        private readonly SqlConnection _connection = new(CONNECTION_STRING);
 
         /// <summary>
         /// Reads all users from the database and prints their name and email.
@@ -37,44 +35,16 @@ namespace Blog.Repositories
         /// <summary>
         /// Updates a user in the database based on the provided userId.
         /// </summary>
-        /// <param name="userId">The ID of the user to update.</param>
-        /// <param name="name">The new name of the user (optional).</param>
-        /// <param name="email">The new email of the user (optional).</param>
-        /// <param name="bio">The new bio of the user (optional).</param>
-        /// <param name="passwordHash">The new password hash of the user (optional).</param>
-        /// <param name="image">The new image URL of the user (optional).</param>
-        /// <param name="slug">The new slug of the user (optional).</param>
-        public bool Update(
-            int userId,
-            string? name = null,
-            string? email = null,
-            string? bio = null,
-            string? passwordHash = null,
-            string? image = null,
-            string? slug = null
-        )
-        {
-            var user = _connection.Get<User>(userId);
-            if (user == null)
-            {
-                Console.WriteLine("User not found!");
-                return false;
-            }
-
-            user.Name = name ?? user.Name;
-            user.Email = email ?? user.Email;
-            user.Bio = bio ?? user.Bio;
-            user.PasswordHash = passwordHash ?? user.PasswordHash;
-            user.Image = image ?? user.Image;
-            user.Slug = slug ?? user.Slug;
-
-            return _connection.Update(user);
-        }
+        /// <param name="user">The updated user object.</param>
+        /// <returns>True if the user was successfully updated, false otherwise.</returns>
+        public bool Update(User user)
+            => _connection.Update(user);
 
         /// <summary>
         /// Deletes a user from the database based on the provided userId.
         /// </summary>
         /// <param name="userId">The ID of the user to delete.</param>
+        /// <returns>True if the user was successfully deleted, false otherwise.</returns>
         public bool Delete(int userId)
             => _connection.Delete(_connection.Get<User>(userId));
     }
