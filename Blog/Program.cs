@@ -1,11 +1,14 @@
 ﻿
+using Blog.Models;
 using Blog.Repositories;
 
 UserRepository userRepository = new();
 
-userRepository.ReadUsers();
+userRepository.GetUsers()?.ForEach(user => Console.WriteLine(user));
+
 Console.WriteLine("\n-------------\n");
-userRepository.ReadUser(1);
+Console.WriteLine(userRepository.GetUser(1));
+
 Console.WriteLine("\n-------------\n");
 //userRepository.CreateUser(new User
 //{

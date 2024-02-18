@@ -16,42 +16,28 @@ namespace Blog.Repositories
         private const string CONNECTION_STRING
             = """Data Source=DESKTOP-4P9S4FF\SQLEXPRESS;Initial Catalog=Blog;Integrated Security=True; TrustServerCertificate=True;""";
 
+        private readonly SqlConnection _connection = new(CONNECTION_STRING);
+
         /// <summary>
         /// Reads all users from the database and prints their name and email.
         /// </summary>
-        public void ReadUsers()
-        {
-            using var connection = new SqlConnection(CONNECTION_STRING);
-            var users = connection.GetAll<User>();
-            foreach (var user in users)
-            {
-                Console.WriteLine(user);
-            }
-        }
+        public List<User> GetUsers()
+            => (List<User>)_connection.GetAll<User>();
 
 
         /// <summary>
         /// Reads a user from the database based on the provided userId and prints their name and email.
         /// </summary>
         /// <param name="userId">The ID of the user to read.</param>
-        public void ReadUser(int userId)
-        {
-            using var connection = new SqlConnection(CONNECTION_STRING);
-            var user = connection.Get<User>(userId);
-            Console.WriteLine($"{user.Name} - {user.Email}");
-        }
+        public User? GetUser(int userId)
+            => _connection.Get<User>(userId);
 
         /// <summary>
         /// Creates a new user in the database.
         /// </summary>
         /// <param name="user">The user object to create.</param>
-        public void CreateUser(User user)
-        {
-            using var connection = new SqlConnection(CONNECTION_STRING);
-
-            connection.Insert(user);
-            Console.WriteLine($"{user.Name} success insert!");
-        }
+        public long Create(User user)
+            => _connection.Insert(user);
 
         /// <summary>
         /// Updates a user in the database based on the provided userId.
@@ -63,7 +49,7 @@ namespace Blog.Repositories
         /// <param name="passwordHash">The new password hash of the user (optional).</param>
         /// <param name="image">The new image URL of the user (optional).</param>
         /// <param name="slug">The new slug of the user (optional).</param>
-        public void UpdateUser(
+        public bool Update(
             int userId,
             string? name = null,
             string? email = null,
@@ -73,12 +59,11 @@ namespace Blog.Repositories
             string? slug = null
         )
         {
-            using var connection = new SqlConnection(CONNECTION_STRING);
-            var user = connection.Get<User>(userId);
+            var user = _connection.Get<User>(userId);
             if (user == null)
             {
                 Console.WriteLine("User not found!");
-                return;
+                return false;
             }
 
             user.Name = name ?? user.Name;
@@ -88,25 +73,14 @@ namespace Blog.Repositories
             user.Image = image ?? user.Image;
             user.Slug = slug ?? user.Slug;
 
-            connection.Update(user);
-            Console.WriteLine($"{user.Name} success update!");
+            return _connection.Update(user);
         }
 
         /// <summary>
         /// Deletes a user from the database based on the provided userId.
         /// </summary>
         /// <param name="userId">The ID of the user to delete.</param>
-        public void DeleteUser(int userId)
-        {
-            using var connection = new SqlConnection(CONNECTION_STRING);
-            var user = connection.Get<User>(userId);
-            if (user == null)
-            {
-                Console.WriteLine("User not found!");
-                return;
-            }
-            connection.Delete(user);
-            Console.WriteLine($"{user.Name} success delete!");
-        }
+        public bool Delete(int userId)
+            => _connection.Delete(_connection.Get<User>(userId));
     }
 }
