@@ -78,15 +78,27 @@ static void UpdateUser
         Console.WriteLine("User not found!");
         return;
     }
-    else
-    {
-        user.Name = name ?? user.Name;
-        user.Email = email ?? user.Email;
-        user.Bio = bio ?? user.Bio;
-        user.PasswordHash = passwordHash ?? user.PasswordHash;
-        user.Image = image ?? user.Image;
-        user.Slug = slug ?? user.Slug;
-    }
+
+    user.Name = name ?? user.Name;
+    user.Email = email ?? user.Email;
+    user.Bio = bio ?? user.Bio;
+    user.PasswordHash = passwordHash ?? user.PasswordHash;
+    user.Image = image ?? user.Image;
+    user.Slug = slug ?? user.Slug;
+
     connection.Update(user);
     Console.WriteLine($"{user.Name} success update!");
+}
+
+static void DeleteUser(int userId)
+{
+    using var connection = new SqlConnection(CONNECTION_STRING);
+    var user = connection.Get<User>(userId);
+    if (user == null)
+    {
+        Console.WriteLine("User not found!");
+        return;
+    }
+    connection.Delete(user);
+    Console.WriteLine($"{user.Name} success delete!");
 }
