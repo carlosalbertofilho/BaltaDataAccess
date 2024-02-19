@@ -18,7 +18,7 @@ namespace Blog.Models
         [Write(false)]
         public List<Role> Roles { get; set; } = [];
 
-        public override string ToString()
+        public override string? ToString()
         {
             return $"{this.Name} - {this.Email}";
         }

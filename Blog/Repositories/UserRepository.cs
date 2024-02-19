@@ -35,8 +35,8 @@ namespace Blog.Repositories
                         existingUser.Roles.Add(role);
                         users.Add(existingUser);
                     }
-
-                    existingUser.Roles.Add(role);
+                    else
+                        existingUser.Roles.Add(role);
 
                     return existingUser;
                 }
