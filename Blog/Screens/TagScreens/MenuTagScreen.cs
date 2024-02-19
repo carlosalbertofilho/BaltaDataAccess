@@ -12,8 +12,10 @@ namespace Blog.Screens.TagScreens
             Console.WriteLine("2 - Cadastrar Tag");
             Console.WriteLine("3 - Atualizar Tag");
             Console.WriteLine("4 - Deletar Tag");
+            Console.WriteLine("5 - Voltar para o menu Principal");
             Console.WriteLine();
             Console.WriteLine();
+            Console.WriteLine("Digite uma opção: ");
             var option = short.Parse(Console.ReadLine()!);
 
             switch (option)
@@ -30,8 +32,12 @@ namespace Blog.Screens.TagScreens
                 case 4:
                     DeleteTagScreen.Load();
                     break;
+                case 5:
+                    MainMenu.Load();
+                    break;
                 default:
                     Console.WriteLine("Opção inválida");
+                    Load();
                     break;
             }
         }
