@@ -16,7 +16,7 @@ namespace Blog.Models
 
         public override string ToString()
         {
-            return $"{this.Name}";
+            return $"{this.Id} - {this.Name} - {this.Slug}";
         }
     }
 }
