@@ -19,6 +19,7 @@ namespace Blog.Screens.TagScreens
             switch (option)
             {
                 case "S":
+                case "s":
                     if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                     {
                         Console.WriteLine("Nome da tag é obrigatório");
@@ -36,6 +37,7 @@ namespace Blog.Screens.TagScreens
                     Create(name, slug);
                     break;
                 case "N":
+                case "n":
                     Console.WriteLine("Operação cancelada");
                     MenuTagScreen.Load();
                     break;
