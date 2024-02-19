@@ -17,21 +17,21 @@ Repository<Role> roleRepository = new(connection);
 Repository<Tag> tagRepository = new(connection);
 UserRepository userRepository = new(connection);
 
-userRepository.GetAllUserWithRoles()?.ForEach(item =>
+userRepository.GetAllUserWithRoles()?.ForEach(user =>
 {
-    Console.WriteLine(item);
+    Console.WriteLine(user);
     Console.Write("Roles:  ");
-    item.Roles?.ForEach(role => Console.Write(role+"\t"));
+    user.Roles?.ForEach(role => Console.Write(role+"\t"));
     Console.WriteLine("\n-------------\n");
 });
 
 Console.WriteLine("\n-------------\n");
 
-roleRepository.GetAll()?.ForEach(item => Console.WriteLine(item));
+roleRepository.GetAll()?.ForEach(role => Console.WriteLine(role));
 
 Console.WriteLine("\n-------------\n");
 
-tagRepository.GetAll()?.ForEach(item => Console.WriteLine(item));
+tagRepository.GetAll()?.ForEach(tag => Console.WriteLine(tag));
 
 Console.WriteLine("\n-------------\n");
 
