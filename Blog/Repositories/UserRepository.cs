@@ -29,10 +29,10 @@ namespace Blog.Repositories
                 {
                     var existingUser = users.FirstOrDefault(u => u.Id == user.Id);
 
-                    if (existingUser == null)
+                    if (existingUser is null)
                     {
                         existingUser = user;
-                        existingUser.Roles.Add(role);
+                        if (role is not null) existingUser.Roles.Add(role);
                         users.Add(existingUser);
                     }
                     else
