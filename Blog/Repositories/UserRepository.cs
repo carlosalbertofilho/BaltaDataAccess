@@ -32,11 +32,15 @@ namespace Blog.Repositories
                     if (existingUser is null)
                     {
                         existingUser = user;
-                        if (role is not null) existingUser.Roles.Add(role);
+
+                        if (role is not null) 
+                            existingUser.Roles.Add(role);
+
                         users.Add(existingUser);
                     }
                     else
-                        existingUser.Roles.Add(role);
+                        if (role is not null) 
+                            existingUser.Roles.Add(role);
 
                     return existingUser;
                 }
