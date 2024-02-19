@@ -76,3 +76,6 @@ FROM
     [User]
     LEFT JOIN [UserRole] ON [UserRole].[UserId] = [User].[Id]
     LEFT JOIN [Role] ON [UserRole].[RoleId] = [Role].[Id]
+
+SELECT * FROM [Tag]
+SELECT * FROM [Post]
