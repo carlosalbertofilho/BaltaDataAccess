@@ -52,14 +52,24 @@ namespace Blog.Screens.TagScreens
 
         public static void Create(string? name, string? slug)
         {
-            var tag = new Tag
+            try
             {
-                Name = name,
-                Slug = slug,
-                CreatedAt = DateTime.Now
-            };
-            var repository = new Repository<Tag>();
-            repository.Create(tag);
+                var repository = new Repository<Tag>();
+                repository.Create(new Tag
+                {
+                    Name = name,
+                    Slug = slug,
+                    CreatedAt = DateTime.Now
+                });
+            } catch (Exception e)
+            {
+                Console.WriteLine("Não foi possível cadastrar a tag");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Pressione qualquer tecla para voltar ao Menu de Tags");
+                Console.ReadKey();
+                MenuTagScreen.Load();
+            }
+
             Console.WriteLine("Tag cadastrada com sucesso");
             Console.WriteLine("Pressione qualquer tecla para voltar ao Menu de Tags");
             Console.ReadKey();
