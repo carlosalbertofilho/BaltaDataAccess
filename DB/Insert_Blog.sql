@@ -29,7 +29,14 @@ VALUES
     ,'HASH'
     ,'Senior SQL'
     ,'https://th.bing.com/th/id/OIP.XfN_dUTzgeHXLeHD9DK0uwAAAA?rs=1&pid=ImgDetMain'
-    ,'maria-da-silva');
+    ,'maria-da-silva')
+,   ('Equipe de Suporte | Blog'
+    ,'suporte@teste.com'
+    ,'HASH'
+    ,'Equipe de Suporte'
+    ,'https://th.bing.com/th/id/OIP.XfN_dUTzgeHXLeHD9DK0uwAAAA?rs=1&pid=ImgDetMain'
+    ,'suporte-blog');
+
 
 SELECT * FROM [dbo].[User]
 SELECT * FROM [Role]
@@ -39,6 +46,7 @@ INSERT INTO [Role]
 VALUES
  ('admin' ,'admin')
 ,('suporte', 'suporte')
+,('autor', 'autor')
 
 SELECT * FROM [Role]
 
@@ -52,12 +60,12 @@ SELECT * FROM [Tag]
 
 INSERT INTO [UserRole]
 VALUES
-    (1, 1)
-,   (1, 3)
+    (2, 1)
 ,   (2, 3)
-,   (3, 2)
-,   (4, 3)
-,   (5, 2)
+,   (3, 3)
+,   (4, 2)
+,   (5, 3)
+,   (6, 2)
 
 SELECT * FROM [UserRole]
 
