@@ -6,9 +6,9 @@ Main();
 static void Main()
 {
     Database.Connection = DbConnection.GetConnection();
-    DbConnection.OpenConnection(Database.Connection);
+    DbConnection.OpenConnection();
 
     MainMenu.Load();
     
-    DbConnection.CloseConnection(Database.Connection);
+    DbConnection.CloseConnection();
 }

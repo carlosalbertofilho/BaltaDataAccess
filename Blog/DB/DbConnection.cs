@@ -22,14 +22,14 @@ namespace Blog.DB
             return new SqlConnection(CONNECTION_STRING);
         }
 
-        public static void OpenConnection(SqlConnection connection)
+        public static void OpenConnection()
         {
-            connection.Open();
+            Database.Connection?.Open();
         }
 
-        public static void CloseConnection(SqlConnection connection)
+        public static void CloseConnection()
         {
-            connection.Close();
+            Database.Connection?.Close();
         }
     }
 }
