@@ -3,7 +3,7 @@ using Blog.Repositories;
 
 namespace Blog.Screens.RoleScreens
 {
-    public class UpdateRoleScreen
+    public static class UpdateRoleScreen
     {
         public static void Load()
         {

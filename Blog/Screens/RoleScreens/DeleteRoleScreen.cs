@@ -3,7 +3,7 @@ using Blog.Repositories;
 
 namespace Blog.Screens.RoleScreens
 {
-    public class DeleteRoleScreen
+    public static class DeleteRoleScreen
     {
         public static void Load()
         {
