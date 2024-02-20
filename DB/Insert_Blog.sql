@@ -38,9 +38,6 @@ VALUES
     ,'suporte-blog');
 
 
-SELECT * FROM [dbo].[User]
-SELECT * FROM [Role]
-
 INSERT INTO [Role]
 ([Name] ,[Slug])
 VALUES
@@ -48,7 +45,6 @@ VALUES
 ,('suporte', 'suporte')
 ,('autor', 'autor')
 
-SELECT * FROM [Role]
 
 INSERT INTO [Tag]
 ([Name],[Slug])
@@ -56,7 +52,6 @@ VALUES
     ('ASP.NET', 'aspnet')
 ,   ('Blazor IU', 'balzor')
 
-SELECT * FROM [Tag]
 
 INSERT INTO [UserRole]
 VALUES
@@ -67,7 +62,6 @@ VALUES
 ,   (5, 3)
 ,   (6, 2)
 
-SELECT * FROM [UserRole]
 
 SELECT
     [User].*,
@@ -78,4 +72,9 @@ FROM
     LEFT JOIN [Role] ON [UserRole].[RoleId] = [Role].[Id]
 
 SELECT * FROM [Tag]
+SELECT * FROM [Category]
 SELECT * FROM [Post]
+
+SELECT * FROM [dbo].[User]
+SELECT * FROM [Role]
+SELECT * FROM [UserRole]

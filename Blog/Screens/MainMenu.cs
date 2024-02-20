@@ -20,10 +20,11 @@ namespace Blog.Screens
             Console.WriteLine("2 - Menu de Autores");
             Console.WriteLine("3 - Menu de Categorias");
             Console.WriteLine("4 - Menu de Tags");
-            Console.WriteLine("5 - Vincular perfil/usuário");
-            Console.WriteLine("6 - Vincular post/tag");
-            Console.WriteLine("7 - Relatórios");
-            Console.WriteLine("8 - Sair");
+            Console.WriteLine("5 - Menu de Perfis");
+            Console.WriteLine("6 - Vincular perfil/usuário");
+            Console.WriteLine("7 - Vincular post/tag");
+            Console.WriteLine("8 - Relatórios");
+            Console.WriteLine("9 - Sair");
             Console.WriteLine("Selecione uma opção: ");
             short option = short.Parse(Console.ReadLine()!);
 
@@ -51,6 +52,9 @@ namespace Blog.Screens
                     Console.WriteLine("Em desenvolvimento");
                     break;
                 case 8:
+                    Console.WriteLine("Em desenvolvimento");
+                    break;
+                case 9:
                     Environment.Exit(0);
                     break;
                 default:
