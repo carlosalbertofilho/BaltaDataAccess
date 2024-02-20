@@ -14,5 +14,10 @@ namespace Blog.Models
 
         [Write(false)]
         public List<Post> Posts { get; set; } = [];
+
+        public override string ToString()
+        {
+            return $"Id: {Id} | Nome: {Name} | Slug: {Slug}";
+        }
     }
 }
