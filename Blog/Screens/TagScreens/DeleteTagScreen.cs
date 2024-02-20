@@ -9,12 +9,11 @@ namespace Blog.Screens.TagScreens
         {
             Console.Clear();
             Console.WriteLine("Deletar uma Tag");
-            Console.WriteLine("---------------------------\n\n");
-            Console.WriteLine("Lista de Tags: ");
+            Console.WriteLine("--------------");
 
             ListTagsScreen.ListTags();
 
-            Console.WriteLine("---------------------------\n\n");
+            Console.WriteLine("--------------");
             Console.WriteLine("Digite o id da tag que sera deletada: ");
             var id = int.Parse(Console.ReadLine()!);
 

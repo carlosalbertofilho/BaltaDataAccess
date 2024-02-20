@@ -32,7 +32,6 @@ namespace Blog.Screens.RoleScreens
             switch (option?.ToUpper())
             {
                 case "S":
-                case "s":
                     try
                     {
                         var repository = new Repository<Role>();

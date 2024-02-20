@@ -16,10 +16,9 @@ namespace Blog.Screens.TagScreens
             var slug = Console.ReadLine();
             Console.WriteLine($"Deseja criar a tag '{name}'? (S/N)");
             var option = Console.ReadLine();
-            switch (option)
+            switch (option?.ToUpper())
             {
                 case "S":
-                case "s":
                     if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                     {
                         Console.WriteLine("Nome da tag é obrigatório");
@@ -37,7 +36,6 @@ namespace Blog.Screens.TagScreens
                     Create(name, slug);
                     break;
                 case "N":
-                case "n":
                     Console.WriteLine("Operação cancelada");
                     MenuTagScreen.Load();
                     break;
