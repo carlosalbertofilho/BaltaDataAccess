@@ -1,4 +1,5 @@
-﻿using Blog.Screens.TagScreens;
+﻿using Blog.Screens.RoleScreens;
+using Blog.Screens.TagScreens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace Blog.Screens
                     MenuTagScreen.Load();
                     break;
                 case 5:
-                    Console.WriteLine("Em desenvolvimento");
+                    MenuRoleScreen.Load();
                     break;
                 case 6:
                     Console.WriteLine("Em desenvolvimento");
