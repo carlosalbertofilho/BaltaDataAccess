@@ -1,5 +1,6 @@
 ﻿
 using Dapper.Contrib.Extensions;
+using System.Data;
 
 namespace Blog.Models
 {
@@ -13,7 +14,7 @@ namespace Blog.Models
 
         public override string ToString()
         {
-            return $"{this.Name}";
+            return $"Id: {this.Id} | Nome: {this.Name} | Slug: {this.Slug}";
         }
     }
 }
