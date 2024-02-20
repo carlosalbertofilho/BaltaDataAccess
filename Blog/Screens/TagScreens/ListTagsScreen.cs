@@ -21,6 +21,13 @@ namespace Blog.Screens.TagScreens
         {
             var repository = new Repository<Tag>();
             var tags = repository.GetAll();
+
+            if (tags.Count == 0)
+            {
+                Console.WriteLine("Nenhuma tag cadastrada");
+                return;
+            }
+
             foreach (var tag in tags)
             {
                 Console.WriteLine(tag);
