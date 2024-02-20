@@ -14,7 +14,7 @@ namespace Blog.Screens
             Console.WriteLine("Gestão do Blog");
             Console.WriteLine("--------------------------------------------");
             Console.WriteLine("1 - Menu de Posts");
-            Console.WriteLine("2 - Menu de Autores");
+            Console.WriteLine("2 - Menu de Usuário");
             Console.WriteLine("3 - Menu de Categorias");
             Console.WriteLine("4 - Menu de Tags");
             Console.WriteLine("5 - Menu de Perfis");

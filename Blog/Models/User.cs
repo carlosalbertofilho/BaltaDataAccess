@@ -20,7 +20,7 @@ namespace Blog.Models
 
         public override string? ToString()
         {
-            return $"{this.Name} - {this.Email}";
+            return $"{this.Name} | {this.Email} | {this.Bio} | {this.Image} | {this.Slug}";
         }
     }
 }
