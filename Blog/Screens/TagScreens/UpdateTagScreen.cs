@@ -31,9 +31,7 @@ namespace Blog.Screens.TagScreens
             if (tag is null)
             {
                 Console.WriteLine("Id da tag não encontrado");
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
-                Console.ReadKey();
-                MenuTagScreen.Load();
+                return;
             }
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("O que vc deseja atualizar?");
@@ -62,9 +60,6 @@ namespace Blog.Screens.TagScreens
                     break;
                 default:
                     Console.WriteLine("Opção inválida");
-                    Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
-                    Console.ReadKey();
-                    MenuTagScreen.Load();
                     break;
             }
         }
