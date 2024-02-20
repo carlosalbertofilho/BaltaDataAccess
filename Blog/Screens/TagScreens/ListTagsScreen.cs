@@ -11,22 +11,20 @@ namespace Blog.Screens.TagScreens
             Console.Clear();
             Console.WriteLine("Lista de tags");
             Console.WriteLine("-------------");
-            Show();
+            ListTags();
             Console.WriteLine("Pressione qualquer tecla para volta ao Menu de Tags");
             Console.ReadKey();
             MenuTagScreen.Load();
         }
 
-        private static void Show()
+        public static void ListTags()
         {
             var repository = new Repository<Tag>();
             var tags = repository.GetAll();
-
             foreach (var tag in tags)
             {
                 Console.WriteLine(tag);
             }
-
         }
     }
 }

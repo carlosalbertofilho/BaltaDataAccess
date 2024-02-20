@@ -1,4 +1,5 @@
 ﻿
+using Azure;
 using Dapper.Contrib.Extensions;
 
 namespace Blog.Models
@@ -16,7 +17,7 @@ namespace Blog.Models
 
         public override string ToString()
         {
-            return $"{this.Id} - {this.Name} - {this.Slug}";
+            return $"Id: {this.Id} | Título: {this.Name} | Slug: {this.Slug}";
         }
     }
 }

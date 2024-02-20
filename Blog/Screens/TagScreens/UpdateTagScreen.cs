@@ -11,7 +11,9 @@ namespace Blog.Screens.TagScreens
             Console.WriteLine("Atualizar uma Tag");
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("Lista de Tags: ");
-            ListTags();
+
+            ListTagsScreen.ListTags();
+
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("Digite o id da tag: ");
             var id = int.Parse(Console.ReadLine()!);
@@ -97,15 +99,6 @@ namespace Blog.Screens.TagScreens
                 Console.WriteLine(e.Message);
             };
             return tag;
-        }
-        private static void ListTags() 
-        {
-            var repository = new Repository<Tag>();
-            var tags = repository.GetAll();
-            foreach (var tag in tags)
-            {
-                Console.WriteLine($"Id: {tag.Id} | Título: {tag.Name} | Slug: {tag.Slug}");
-            }
         }
     }
 }
