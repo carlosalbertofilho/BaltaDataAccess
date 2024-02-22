@@ -1,6 +1,7 @@
 ﻿using Blog.Screens.CategoryScreens;
 using Blog.Screens.RoleScreens;
 using Blog.Screens.TagScreens;
+using Blog.Screens.UserScreens;
 
 namespace Blog.Screens
 {
@@ -31,7 +32,7 @@ namespace Blog.Screens
                     Console.WriteLine("Em desenvolvimento");
                     break;
                 case 2:
-                    Console.WriteLine("Em desenvolvimento");
+                    MenuUserScreens.Load();
                     break;
                 case 3:
                     MenuCategoryScreen.Load();

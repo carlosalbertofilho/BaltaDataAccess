@@ -1,4 +1,5 @@
 ﻿
+using Blog.Validation;
 using Dapper.Contrib.Extensions;
 
 namespace Blog.Models
@@ -7,12 +8,18 @@ namespace Blog.Models
     public class User
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Email { get; set; }
-        public string? PasswordHash { get; set; }
-        public string? Bio { get; set; }
-        public string? Image { get; set; }
-        public string? Slug { get; set; }
+        [NotNullOrWhiteSpace]
+        public required string Name { get; set; }
+        [NotNullOrWhiteSpace]
+        public required string Email { get; set; }
+        [NotNullOrWhiteSpace]
+        public required string PasswordHash { get; set; }
+        [NotNullOrWhiteSpace]
+        public required string Bio { get; set; }
+        [NotNullOrWhiteSpace]
+        public required string Image { get; set; }
+        [NotNullOrWhiteSpace]
+        public required string Slug { get; set; }
         public DateTime CreatedAt { get; set; }
 
         [Write(false)]
@@ -20,7 +27,11 @@ namespace Blog.Models
 
         public override string? ToString()
         {
-            return $"{this.Name} | {this.Email} | {this.Bio} | {this.Image} | {this.Slug}";
+            return $"{this.Id} -> {this.Name} " +
+                   $"\n\t Email :    \t{this.Email} " +
+                   $"\n\t Bio:       \t{this.Bio} " +
+                   $"\n\t URL Image: \t{this.Image} " +
+                   $"\n\t Slug:      \t{this.Slug}";
         }
     }
 }
