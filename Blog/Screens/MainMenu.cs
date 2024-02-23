@@ -24,8 +24,17 @@ namespace Blog.Screens
             Console.WriteLine("8 - Relatórios");
             Console.WriteLine("9 - Sair");
             Console.WriteLine("Selecione uma opção: ");
-            short option = short.Parse(Console.ReadLine()!);
-
+            short option = 0;
+            try
+            {
+                option = short.Parse(Console.ReadLine()!);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Opção inválida");
+                Console.WriteLine(e.Message);
+                Load();
+            }
             switch (option)
             {
                 case 1:

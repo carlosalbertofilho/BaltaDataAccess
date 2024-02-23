@@ -15,11 +15,11 @@ namespace Blog.Screens.UserScreens
             Console.WriteLine("6 - Para sair");
             Console.WriteLine();
             Console.WriteLine("Digite uma opção: ");
-            var option = 0;
+            short option = 0;
             try
             {
                 option = short.Parse(Console.ReadLine()!);
-            } 
+            }
             catch (Exception e)
             {
                 Console.WriteLine("Opção inválida");
