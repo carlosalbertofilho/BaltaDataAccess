@@ -4,7 +4,7 @@ using Dapper.Contrib.Extensions;
 namespace Blog.Models
 {
     [Table("[Post]")]
-    public class Post
+    public class Post : IEntity
     {
         public int Id { get; set; }
         public string? Title { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Blog.Models;
 using Blog.Repositories;
+using Blog.Validation;
 
 namespace Blog.Screens.CategoryScreens
 {
@@ -14,18 +15,27 @@ namespace Blog.Screens.CategoryScreens
             ListCategoriesScreen.ListCategories();
 
             Console.WriteLine("--------------");
-            
-            DeleteCategory();
 
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu Categorias");
-            Console.ReadLine();
-            MenuCategoryScreen.Load();
+            try
+            {
+                DeleteCategory();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Não foi possível deletar a categoria");
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Categorias");
+                Console.ReadKey();
+                MenuCategoryScreen.Load();
+            }
         }
 
         private static void DeleteCategory()
         {
-            Console.WriteLine("Digite o Id da categoria: ");
-            var id = int.Parse(Console.ReadLine()!);
+            var id = InputHandler.GetId("Digite o Id da categoria que deseja deletar: ");
 
             Console.WriteLine($"Você deseja deletar a categoria com Id {id}? (S/N)");
             var option = Console.ReadLine();
@@ -33,20 +43,13 @@ namespace Blog.Screens.CategoryScreens
             switch (option?.ToUpper())
             {
                 case "S":
-                    try
-                    {
-                        var repository = new Repository<Category>();
-                        repository.Delete(id);
-                        Console.WriteLine("Categoria deletada com sucesso!");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Não foi possível deletar a categoria");
-                        Console.WriteLine(e.Message);
-                    }
+                    var repository = new Repository<Category>();
+                    repository.Delete(id);
+                    Console.WriteLine("Categoria deletada com sucesso!");
+
                     break;
                 default:
-                    Console.WriteLine("Operação cancelada");
+                    Console.WriteLine("Opção invalida, operação cancelada!");
                     break;
             }
         }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Blog.Models
 {
     [Table("[User]")]
-    public class User
+    public class User : IEntity
     {
         public int Id { get; set; }
 

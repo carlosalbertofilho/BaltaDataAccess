@@ -14,30 +14,47 @@ namespace Blog.Screens.TagScreens
             ListTagsScreen.ListTags();
 
             Console.WriteLine("--------------");
-            Console.WriteLine("Digite o id da tag que sera deletada: ");
-            var id = int.Parse(Console.ReadLine()!);
 
-            Delete(id);
-
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
-            Console.ReadKey();
-            MenuTagScreen.Load();
-
-        }
-
-        private static void Delete(int tagId)
-        {
             try
             {
-                var repository = new Repository<Tag>();
-                repository.Delete(tagId);
-                Console.WriteLine("Tag deletada com sucesso");
+                Delete();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Não foi possível deletar a tag");
                 Console.WriteLine(e.Message);
             }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
+                Console.ReadKey();
+                MenuTagScreen.Load();
+            }
+
+
+        }
+
+        private static void Delete()
+        {
+            Console.WriteLine("Digite o id da tag que sera deletada: ");
+            var id = int.Parse(Console.ReadLine()!);
+
+            Console.WriteLine($"Você deseja deletar a tag com Id: {id}? (S/N)");
+            var option = Console.ReadLine();
+
+            switch (option?.ToUpper())
+            {
+                case "S":
+                    var repository = new Repository<Tag>();
+                    repository.Delete(id);
+                    Console.WriteLine("Tag deletada com sucesso!");
+
+                    break;
+                default:
+                    Console.WriteLine("Opção invalida, operação cancelada!");
+                    break;
+            }
+
         }
     }
 }

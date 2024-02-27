@@ -14,11 +14,22 @@ namespace Blog.Screens.UserScreens
 
             Console.WriteLine("----------------------------");
 
-            DeleteUser();
+            try
+            {
+                DeleteUser();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Não foi possível deletar o usuário");
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Digite qualquer tecla para voltar ao menu de usuários");
+                Console.ReadKey();
+                MenuUserScreens.Load();
+            }
 
-            Console.WriteLine("Digite qualquer tecla para voltar ao menu de usuários");
-            Console.ReadKey();
-            MenuUserScreens.Load();
         }
 
         private static void DeleteUser()
@@ -26,17 +37,22 @@ namespace Blog.Screens.UserScreens
             Console.WriteLine("Digite o id do usuário que deseja deletar: ");
             var id = int.Parse(Console.ReadLine()!);
 
-            try
+            Console.WriteLine("Você deseja deletar o usuário com Id: {id}? (S/N)");
+            var option = Console.ReadLine();
+
+            switch (option?.ToUpper())
             {
-                var repository = new UserRepository();
-                repository.Delete(id);
-                Console.WriteLine("Usuário deletado com sucesso");
+                case "S":
+                    var repository = new UserRepository();
+                    repository.Delete(id);
+                    Console.WriteLine("Usuário deletado com sucesso!");
+
+                    break;
+                default:
+                    Console.WriteLine("Opção invalida, operação cancelada!");
+                    break;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível deletar o usuário");
-                Console.WriteLine(e.Message);
-            }
+
         }
     }
 }

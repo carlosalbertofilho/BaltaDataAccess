@@ -5,7 +5,7 @@ using System.Data;
 namespace Blog.Models
 {
     [Table("[Role]")]
-    public class Role
+    public class Role : IEntity
     {
         public int Id { get; set; }
         public string? Name { get; set; }
