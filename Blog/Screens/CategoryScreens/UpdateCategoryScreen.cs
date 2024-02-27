@@ -1,5 +1,6 @@
 ﻿using Blog.Models;
 using Blog.Repositories;
+using Blog.Validation;
 
 namespace Blog.Screens.CategoryScreens
 {
@@ -24,16 +25,28 @@ namespace Blog.Screens.CategoryScreens
 
         private static void UpdateCategory()
         {
-            Console.WriteLine("Digite o Id da categoria: ");
-            var id = int.Parse(Console.ReadLine()!);
+            var repository = new Repository<Category>();
+            var id = InputHandler.GetId("Digite o Id da categoria: ");
 
-            var category = GetCategoryById(id);
-            if (category is null)
+            var category = GetCategoryById(id, repository);
+            if (category is null) return;
+            try
             {
-                Console.WriteLine("Id da categoria não encontrado");
-                return;
+                HandlerOptions(repository, category);
             }
+            catch (Exception e)
+            {
 
+                Console.WriteLine("Não foi possível atualizar o Categoria");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de categorias");
+                Console.ReadKey();
+                MenuCategoryScreen.Load();
+            }
+        }
+
+        private static void HandlerOptions(Repository<Category> repository, Category? category)
+        {
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("O que vc deseja atualizar?");
 
@@ -41,13 +54,13 @@ namespace Blog.Screens.CategoryScreens
             Console.WriteLine($"2 - Slug: {category?.Slug} ? ");
 
 
-            switch (short.Parse(Console.ReadLine()!))
+            switch (InputHandler.GetOption())
             {
                 case 1:
-                    Console.WriteLine("Digite o título da categoria: ");
-                    var name = Console.ReadLine();
-
-                    category.Name = name;
+                    Update(
+                        ChangeCategoryName(category)
+                        , "Nome atualizado com sucesso!"
+                        , repository);
 
                     break;
                 case 2:
@@ -61,36 +74,21 @@ namespace Blog.Screens.CategoryScreens
                     Console.WriteLine("Operação cancelada");
                     break;
             }
-            Console.WriteLine(category);
-            Console.WriteLine($"Você deseja atualizar a categoria com Id: {id}? (S/N)");
-            var option = Console.ReadLine();
-
-            switch (option?.ToUpper())
-            {
-                case "S":
-                    try
-                    {
-                        var repository = new Repository<Category>();
-                        repository.Update(category);
-                        Console.WriteLine("Categoria atualizada com sucesso!");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Não foi possível atualizar a categoria");
-                        Console.WriteLine(e.Message);
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Operação cancelada");
-                    break;
-            }
         }
 
-        private static Category GetCategoryById(int id)
+        private static Category ChangeCategoryName(Category? category)
+        {
+            Console.WriteLine("Digite o título da categoria: ");
+            var name = Console.ReadLine();
+
+            category.Name = name;
+            return category;
+        }
+
+        private static Category? GetCategoryById(int id, Repository<Category> repository)
         {
             try
             {
-                var repository = new Repository<Category>();
                 return repository.Get(id);
             }
             catch (Exception e)
@@ -100,5 +98,18 @@ namespace Blog.Screens.CategoryScreens
                 return null;
             }
         }
+        private static void Update(Category category, string message, Repository<Category> repository)
+        {
+            try
+            {
+                repository.Update(category);
+                Console.WriteLine($"Categoria Id: {category.Id}, {message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Não foi possível atualizar a categoria");
+                Console.WriteLine(e.Message);
+            }
+        }   
     }
 }

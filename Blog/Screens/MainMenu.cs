@@ -2,6 +2,7 @@
 using Blog.Screens.RoleScreens;
 using Blog.Screens.TagScreens;
 using Blog.Screens.UserScreens;
+using Blog.Validation;
 
 namespace Blog.Screens
 {
@@ -24,17 +25,9 @@ namespace Blog.Screens
             Console.WriteLine("8 - Relatórios");
             Console.WriteLine("9 - Sair");
             Console.WriteLine("Selecione uma opção: ");
-            short option = 0;
-            try
-            {
-                option = short.Parse(Console.ReadLine()!);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Opção inválida");
-                Console.WriteLine(e.Message);
-                Load();
-            }
+            var option = InputHandler.GetOption();
+            if (option == 0) Load();
+
             switch (option)
             {
                 case 1:

@@ -1,5 +1,6 @@
 ﻿using Blog.Models;
 using Blog.Repositories;
+using Blog.Validation;
 
 namespace Blog.Screens.UserScreens
 {
@@ -15,101 +16,187 @@ namespace Blog.Screens.UserScreens
             ListUsersScreen.ListUsers();
 
             Console.WriteLine("----------------------------\n\n");
-            Console.WriteLine("Digite o id do usuário: ");
-            var id = int.Parse(Console.ReadLine()!);
+            var id = InputHandler.GetId("Digite o id do usuário: ");
+            if (id == 0) Load();
 
-            GuestAUser(id);
+            UpdateUser(id);
 
             Console.WriteLine("Pressione qualquer tecla para voltar ao menu de usuários");
             Console.ReadKey();
             MenuUserScreens.Load();
         }
 
-        private static void GuestAUser(int id)
+        private static void UpdateUser(int id)
         {
             var repository = new UserRepository();
-            User? user = null;
+            User? user = GetUser(id, repository);
+            if (user == null) return;
+
+            
             try
             {
-               user = repository.Get(id);
+                HandlerOptions(repository, user);
             }
             catch (Exception e)
             {
 
-                Console.WriteLine("Id do usuário não encontrado");
+                Console.WriteLine("Não foi possível atualizar o usuário");
                 Console.WriteLine(e.Message);
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de usuários");
+                Console.ReadKey();
+                MenuUserScreens.Load();
             }
+        }
 
+        private static void HandlerOptions(UserRepository repository, User? user)
+        {
+            Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("O que vc deseja atualizar?");
             Console.WriteLine($"1 - Nome: {user?.Name} ? ");
             Console.WriteLine($"2 - Email: {user?.Email} ? ");
-            Console.WriteLine($"3 - Bio: {user?.Bio} ? ");
-            Console.WriteLine($"4 - Image: {user?.Image} ? ");
+            Console.WriteLine($"3 - Biografia: {user?.Bio} ? ");
+            Console.WriteLine($"4 - Imagem: {user?.Image} ? ");
             Console.WriteLine($"5 - Slug: {user?.Slug} ? ");
-            Console.WriteLine($"6 - Password: {user?.PasswordHash} ? ");
-            var option = short.Parse(Console.ReadLine()!);
+            Console.WriteLine($"6 - Senha: {user?.PasswordHash} ? ");
+            var option = InputHandler.GetOption();
 
             switch (option)
             {
                 case 1:
-                    Console.WriteLine("Digite o novo nome do usuário: ");
-                    var name = Console.ReadLine();
-
-                    user.Name = name;
-
-                    repository.Update(user);
-                    Console.WriteLine($"Usuário Id: {user.Id}, Nome: {user.Name} atualizado com sucesso");
+                    Update(
+                        UpdateUserName(user)
+                        , "Nome atualizado com sucesso"
+                        , repository);
                     break;
                 case 2:
-                    Console.WriteLine("Digite o novo email do usuário: ");
-                    var email = Console.ReadLine();
-
-                    user.Email = email;
-
-                    repository.Update(user);
-                    Console.WriteLine($"Usuário Id: {user.Id}, Email: {user.Email} atualizado com sucesso");
+                    Update(
+                        UpdateUserEmail(user)
+                        , "Email atualizado com sucesso"
+                        , repository);
                     break;
                 case 3:
-                    Console.WriteLine("Digite a nova bio do usuário: ");
-                    var bio = Console.ReadLine();
-
-                    user.Bio = bio;
-
-                    repository.Update(user);
-                    Console.WriteLine($"Usuário Id: {user.Id}, Bio: {user.Bio} atualizado com sucesso");
+                    Update(
+                        UpdateUserBio(user)
+                        , "Biografia atualizada com sucesso"
+                        , repository);
                     break;
                 case 4:
-                    Console.WriteLine("Digite a nova imagem do usuário: ");
-                    var image = Console.ReadLine();
-
-                    user.Image = image;
-
-                    repository.Update(user);
-                    Console.WriteLine($"Usuário Id: {user.Id}, Image: {user.Image} atualizado com sucesso");
+                    Update(
+                        UpdateUserImage(user)
+                        , "Imagem atualizada com sucesso"
+                        , repository);
                     break;
                 case 5:
-                    Console.WriteLine("Digite o novo slug do usuário: ");
-                    var slug = Console.ReadLine();
-
-                    user.Slug = slug;
-
-                    repository.Update(user);
-                    Console.WriteLine($"Usuário Id: {user.Id}, Slug: {user.Slug} atualizado com sucesso");
+                    Update(
+                        UpdateUserSlug(user)
+                        , "Slug atualizado com sucesso"
+                        , repository);
                     break;
                 case 6:
-                    Console.WriteLine("Digite a nova senha do usuário: ");
-                    var password = Console.ReadLine();
-
-                    user.PasswordHash = password;
-
-                    repository.Update(user);
-                    Console.WriteLine($"Usuário Id: {user.Id}, Password: {user.PasswordHash} atualizado com sucesso");
+                    Update(
+                        UpdateUserPassword(user)
+                        , "Senha atualizada com sucesso"
+                        , repository);
                     break;
-
                 default:
                     Console.WriteLine("Opção inválida");
                     break;
             }
+        }
+
+        private static void Update(User user, string message, UserRepository repository)
+        {
+            try
+            {
+                repository.Update(user);
+                Console.WriteLine($"Usuário Id: {user.Id}, {message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Não foi possível atualizar o usuário");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private static User? GetUser(int id, UserRepository repository)
+        {
+            try
+            {
+                return repository.Get(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Id do usuário não encontrado");
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+              
+
+        private static User UpdateUserName(User user)
+        {
+            Console.WriteLine("Digite o novo nome do usuário: ");
+            var name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException("Nome não pode ser nulo, vazio ou espaço em branco");
+
+            user.Name = name;
+            return user;
+        }
+
+        private static User UpdateUserEmail(User user)
+        {
+            Console.WriteLine("Digite o novo email do usuário: ");
+            var email = Console.ReadLine();
+            if (string.IsNullOrEmpty(email))
+                throw new ArgumentNullException("Email não pode ser nulo ou vazio");
+
+            user.Email = email;
+            return user;
+        }
+
+        private static User UpdateUserBio(User user)
+        {
+            Console.WriteLine("Digite a nova biografia do usuário: ");
+            var bio = Console.ReadLine();
+            if (string.IsNullOrEmpty(bio))
+                throw new ArgumentNullException("Biografia não pode ser nula ou vazia");
+
+            user.Bio = bio;
+            return user;
+        }
+
+        private static User UpdateUserImage(User user)
+        {
+            Console.WriteLine("Digite a nova imagem do usuário: ");
+            var image = Console.ReadLine();
+            if (string.IsNullOrEmpty(image))
+                throw new ArgumentNullException("Imagem não pode ser nula ou vazia");
+
+            user.Image = image;
+            return user;
+        }
+
+        private static User UpdateUserSlug(User user)
+        {
+            Console.WriteLine("Digite o novo slug do usuário: ");
+            var slug = Console.ReadLine();
+            if (string.IsNullOrEmpty(slug))
+                throw new ArgumentNullException("Slug não pode ser nulo ou vazio");
+
+            user.Slug = slug;
+            return user;
+        }
+
+        private static User UpdateUserPassword(User user)
+        {
+            Console.WriteLine("Digite a nova senha do usuário: ");
+            var password = Console.ReadLine();
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentNullException("Senha não pode ser nula ou vazia");
+
+            user.PasswordHash = password;
+            return user;
         }
     }
 }
