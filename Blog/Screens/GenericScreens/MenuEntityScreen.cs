@@ -2,9 +2,9 @@
 
 namespace Blog.Screens
 {
-    public static class MenuEntityScreen<T> where T : class, IEntity, new()
+    public class MenuEntityScreen<T> where T : class, IEntity, new()
     {
-        public static void Load()
+        public virtual void Load()
         {
             Console.Clear();
             Console.WriteLine($"Menu {typeof(T).Name}");
@@ -45,14 +45,14 @@ namespace Blog.Screens
             }
         }
 
-        private static void UpdateEntity()
+        protected virtual void UpdateEntity()
         {
-            UpdateEntityScreen<T>.Load();
+            new UpdateEntityScreen<T>().Load();
         }
 
-        private static void CreateEntity()
+        protected virtual void CreateEntity()
         {
-            CreateEntityScreen<T>.Load();
+            new CreateEntityScreen<T>().Load();
         }
     }
 }

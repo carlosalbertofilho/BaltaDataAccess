@@ -4,7 +4,7 @@ namespace Blog.Screens
 {
     public class UpdateEntityScreen<T> where T : class, IEntity, new()
     {
-        public static void Load()
+        public virtual void Load()
         {
             Console.Clear();
             Console.WriteLine($"Novo {typeof(T).Name}");
@@ -24,11 +24,11 @@ namespace Blog.Screens
             {
                 Console.WriteLine("Pressione qualquer tecla para voltar ao menu");
                 Console.ReadKey();
-                MenuEntityScreen<T>.Load();
+                new CreateEntityScreen<T>().Load();
             }
         }
 
-        private static void UpdateEntity()
+        protected virtual void UpdateEntity()
         {
             throw new System.NotImplementedException();
         }

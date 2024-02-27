@@ -30,7 +30,7 @@ namespace Blog.Screens
             {
                 Console.WriteLine($"Pressione qualquer tecla para voltar ao menu {typeof(T).Name}");
                 Console.ReadKey();
-                MenuEntityScreen<T>.Load();
+                new MenuEntityScreen<T>().Load();
             }
         }
 
