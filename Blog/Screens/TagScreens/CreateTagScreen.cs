@@ -10,68 +10,44 @@ namespace Blog.Screens.TagScreens
             Console.Clear();
             Console.WriteLine("Nova Tag");
             Console.WriteLine("--------------------------------------");
-            Console.WriteLine("Nome da Tag: ");
-            var name = Console.ReadLine();
-            Console.WriteLine("Slug da Tag: ");
-            var slug = Console.ReadLine();
-            Console.WriteLine($"Deseja criar a tag '{name}'? (S/N)");
-            var option = Console.ReadLine();
-            switch (option?.ToUpper())
-            {
-                case "S":
-                    if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                    {
-                        Console.WriteLine("Nome da tag é obrigatório");
-                        Console.WriteLine("Pressione qualquer tecla para tentar novamente");
-                        Console.ReadKey();
-                        Load();
-                    }
-                    if (string.IsNullOrEmpty(slug) || string .IsNullOrWhiteSpace(slug))
-                    {
-                        Console.WriteLine("Slug da tag é obrigatório");
-                        Console.WriteLine("Pressione qualquer tecla para tentar novamente");
-                        Console.ReadKey();
-                        Load();
-                    }
-                    Create(name, slug);
-                    break;
-                case "N":
-                    Console.WriteLine("Operação cancelada");
-                    MenuTagScreen.Load();
-                    break;
-                default:
-                    Console.WriteLine("Opção inválida");
-                    Console.WriteLine("Pressione qualquer tecla para voltar ao Menu de Tags");
-                    Console.ReadKey();
-                    MenuTagScreen.Load();
-                    break;
-            }
-        }
-
-        public static void Create(string? name, string? slug)
-        {
             try
             {
-                var repository = new Repository<Tag>();
-                repository.Create(new Tag
-                {
-                    Name = name,
-                    Slug = slug,
-                    CreatedAt = DateTime.Now
-                });
-            } catch (Exception e)
+                CreateTag();
+            }
+            catch (Exception e)
             {
+
                 Console.WriteLine("Não foi possível cadastrar a tag");
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
                 Console.WriteLine("Pressione qualquer tecla para voltar ao Menu de Tags");
                 Console.ReadKey();
                 MenuTagScreen.Load();
             }
 
-            Console.WriteLine("Tag cadastrada com sucesso");
-            Console.WriteLine("Pressione qualquer tecla para voltar ao Menu de Tags");
-            Console.ReadKey();
-            MenuTagScreen.Load();
+        }
+
+        private static void CreateTag()
+        {
+            Console.WriteLine("Nome da Tag: ");
+            var name = Console.ReadLine();
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("O nome da tag é obrigatório");
+
+            Console.WriteLine("Slug da Tag: ");
+            var slug = Console.ReadLine();
+            if (string.IsNullOrEmpty(slug))
+                throw new ArgumentNullException("A slug da tag é obrigatória");
+
+            var repository = new Repository<Tag>();
+            repository.Create(new Tag
+            {
+                Name = name,
+                Slug = slug,
+                CreatedAt = DateTime.Now
+            });
         }
     }
 }

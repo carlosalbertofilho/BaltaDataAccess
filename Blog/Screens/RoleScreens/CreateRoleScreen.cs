@@ -10,48 +10,45 @@ namespace Blog.Screens.RoleScreens
             Console.Clear();
             Console.WriteLine("Novo Perfil");
             Console.WriteLine("--------------");
-            
-            CreateRole();
 
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu Perfis");
-            Console.ReadLine();
-            MenuRoleScreen.Load();
+            try
+            {
+                CreateRole();
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("Não foi possível cadastrar o perfil");
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Perfis");
+                Console.ReadKey();
+                MenuRoleScreen.Load();
+            }
         }
 
         private static void CreateRole()
         {
             Console.WriteLine("Digite o nome do perfil: ");
             var name = Console.ReadLine();
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("O nome do perfil é obrigatório");
 
             Console.WriteLine("Digite a Slug do perfil: ");
             var slug = Console.ReadLine();
+            if (string.IsNullOrEmpty(slug))
+                throw new ArgumentNullException("A slug do perfil é obrigatória");
 
-            Console.WriteLine($"Você deseja cadastrar o perfil: {name}? (S/N)");
-            var option = Console.ReadLine();
-
-            switch (option?.ToUpper())
+            var repository = new Repository<Role>();
+            repository.Create(new Role
             {
-                case "S":
-                    try
-                    {
-                        var repository = new Repository<Role>();
-                        repository.Create(new Role {
-                            Name = name,
-                            Slug = slug,
-                            CreatedAt = DateTime.Now
-                        });
-                        Console.WriteLine("Perfil cadastrado com sucesso!");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Não foi possível cadastrar o perfil");
-                        Console.WriteLine(e.Message);
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Operação cancelada");
-                    break;
-            }
+                Name = name,
+                Slug = slug,
+                CreatedAt = DateTime.Now
+            });
+            Console.WriteLine("Perfil cadastrado com sucesso!");
         }
     }
 }

@@ -12,39 +12,43 @@ namespace Blog.Screens.CategoryScreens
             Console.WriteLine("Criar Categoria");
             Console.WriteLine("--------------");
 
-            CreateCategory();
-
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu Categorias");
-            Console.ReadLine();
-            MenuCategoryScreen.Load();
-        }
-
-        private static void CreateCategory()
-        {
-            Console.WriteLine("Digite o título da categoria: ");
-            var name = Console.ReadLine();
-
-            Console.WriteLine("Digite a Slug da categoria: ");
-            var slug = Console.ReadLine();
-
-            var category = new Category
-            {
-                Name = name,
-                Slug = slug,
-                CreatedAt = DateTime.Now,
-            };
-
             try
             {
-                var repository = new Repository<Category>();
-                repository.Create(category);
-                Console.WriteLine("Categoria cadastrada com sucesso");
+                CreateCategory();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Não foi possível cadastrar a categoria");
                 Console.WriteLine(e.Message);
             }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Categorias");
+                Console.ReadKey();
+                MenuCategoryScreen.Load();
+            }
+        }
+
+        private static void CreateCategory()
+        {
+            Console.WriteLine("Digite o título da categoria: ");
+            var name = Console.ReadLine();
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("O nome da categoria é obrigatório");
+
+            Console.WriteLine("Digite a Slug da categoria: ");
+            var slug = Console.ReadLine();
+            if (string.IsNullOrEmpty(slug))
+                throw new ArgumentNullException("A slug da categoria é obrigatória");
+
+            var repository = new Repository<Category>();
+            repository.Create(new Category
+            {
+                Name = name,
+                Slug = slug,
+                CreatedAt = DateTime.Now,
+            });
+            Console.WriteLine("Categoria cadastrada com sucesso");
         }
     }
 }
