@@ -1,6 +1,5 @@
-﻿
-using Blog.Validation;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Models
 {
@@ -8,18 +7,31 @@ namespace Blog.Models
     public class User
     {
         public int Id { get; set; }
-        [NotNullOrWhiteSpace]
-        public required string Name { get; set; }
-        [NotNullOrWhiteSpace]
-        public required string Email { get; set; }
-        [NotNullOrWhiteSpace]
-        public required string PasswordHash { get; set; }
-        [NotNullOrWhiteSpace]
-        public required string Bio { get; set; }
-        [NotNullOrWhiteSpace]
-        public required string Image { get; set; }
-        [NotNullOrWhiteSpace]
-        public required string Slug { get; set; }
+
+        [Required]
+        [StringLength(int.MaxValue, MinimumLength = 1)]
+        public string Name { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(int.MaxValue, MinimumLength = 1)]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(int.MaxValue, MinimumLength = 1)]
+        public string PasswordHash { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(int.MaxValue, MinimumLength = 1)]
+        public string Bio { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(int.MaxValue, MinimumLength = 1)]
+        public string Image { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(int.MaxValue, MinimumLength = 1)]
+        public string Slug { get; set; } = string.Empty;
+
         public DateTime CreatedAt { get; set; }
 
         [Write(false)]

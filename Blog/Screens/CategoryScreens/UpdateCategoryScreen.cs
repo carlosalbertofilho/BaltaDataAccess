@@ -45,7 +45,7 @@ namespace Blog.Screens.CategoryScreens
             }
         }
 
-        private static void HandlerOptions(Repository<Category> repository, Category? category)
+        private static void HandlerOptions(Repository<Category> repository, Category category)
         {
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("O que vc deseja atualizar?");
@@ -64,10 +64,10 @@ namespace Blog.Screens.CategoryScreens
 
                     break;
                 case 2:
-                    Console.WriteLine("Digite a Slug da categoria: ");
-                    var slug = Console.ReadLine();
-
-                    category.Slug = slug;
+                    Update(
+                        ChangeCategorySlug(category)
+                        , "Slug atualizado com sucesso"
+                        , repository);
 
                     break;
                 default:
@@ -76,10 +76,23 @@ namespace Blog.Screens.CategoryScreens
             }
         }
 
-        private static Category ChangeCategoryName(Category? category)
+        private static Category ChangeCategorySlug(Category category)
+        {
+            Console.WriteLine("Digite a Slug da categoria: ");
+            var slug = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(slug))
+                throw new ArgumentNullException("Slug não pode ser vazia");
+
+            category.Slug = slug;
+            return category;
+        }
+
+        private static Category ChangeCategoryName(Category category)
         {
             Console.WriteLine("Digite o título da categoria: ");
             var name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException("Nome não pode ser vazio");
 
             category.Name = name;
             return category;

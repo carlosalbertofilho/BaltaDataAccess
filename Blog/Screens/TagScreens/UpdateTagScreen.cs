@@ -89,7 +89,7 @@ namespace Blog.Screens.TagScreens
             Console.WriteLine("Digite o novo slug da tag: ");
             var slug = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(slug))
-                throw new Exception("Slug não pode ser nulo, vazio ou espaço em branco");c
+                throw new Exception("Slug não pode ser nulo, vazio ou espaço em branco");
 
             tag.Slug = slug;
 
