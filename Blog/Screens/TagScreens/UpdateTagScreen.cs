@@ -15,21 +15,7 @@ namespace Blog.Screens.TagScreens
             Tag? tag = GetTag(id, _repository);
             if (tag == null) return;
 
-            try
-            {
-                HandlerOptions(_repository, tag);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível atualizar a tag");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
-                Console.ReadKey();
-                _menuTagScreen.Load();
-            }
+            HandlerOptions(_repository, tag);
         }
         private static void HandlerOptions(Repository<Tag> repository, Tag? tag)
         {

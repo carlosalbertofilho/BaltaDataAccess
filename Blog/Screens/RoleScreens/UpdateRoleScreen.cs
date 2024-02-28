@@ -15,21 +15,7 @@ namespace Blog.Screens.RoleScreens
             var role = GetRoleById(id, _repository);
             if (role is null) return;
 
-            try
-            {
-                HandlerOptions(_repository, role);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível atualizar o perfil");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de perfis");
-                Console.ReadKey();
-                _menuRoleScreen.Load();
-            }
+            HandlerOptions(_repository, role);
         }
 
         private static void HandlerOptions(Repository<Role> repository, Role? role)

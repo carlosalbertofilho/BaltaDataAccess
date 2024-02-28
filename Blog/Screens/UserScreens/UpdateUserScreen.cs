@@ -15,23 +15,8 @@ namespace Blog.Screens.UserScreens
             User? user = GetUser(id, _repository);
             if (user == null) return;
 
-            
-            try
-            {
-                HandlerOptions(_repository, user);
-            }
-            catch (Exception e)
-            {
 
-                Console.WriteLine("Não foi possível atualizar o usuário");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de usuários");
-                Console.ReadKey();
-                _menuUserScreens.Load();
-            }
+            HandlerOptions(_repository, user);
         }
 
         private static void HandlerOptions(UserRepository repository, User? user)
