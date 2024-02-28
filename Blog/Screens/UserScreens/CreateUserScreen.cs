@@ -3,33 +3,10 @@ using Blog.Repositories;
 
 namespace Blog.Screens.UserScreens
 {
-    public static class CreateUserScreen
+    public class CreateUserScreen : CreateEntityScreen<User>
     {
-        public static void Load()
-        {
-            Console.Clear();
-            Console.WriteLine("Cadastrar Usuário");
-            Console.WriteLine("----------------------------\n");
-
-            try
-            {
-                CreateUser();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível cadastrar o usuário");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Digite qualquer tecla para voltar ao menu de usuários");
-                Console.ReadKey();
-                MenuUserScreens.Load();
-            }
-            
-        }
-
-        private static void CreateUser()
+        private readonly UserRepository _repository = new();
+        protected override void CreateEntity()
         {
             Console.WriteLine("Digite o nome do usuário: ");
             var name = Console.ReadLine();
@@ -66,8 +43,8 @@ namespace Blog.Screens.UserScreens
             if (string.IsNullOrEmpty(slug))
                 throw new ArgumentNullException("O slug do usuário é obrigatório");
 
-            var repository = new UserRepository();
-            repository.Create(new User
+
+            _repository.Create(new User
             {
                 Name = name,
                 Email = email,

@@ -1,57 +1,18 @@
 ﻿
+using Blog.Models;
+
 namespace Blog.Screens.UserScreens
 {
-    public static class MenuUserScreens
+    public class MenuUserScreens : MenuEntityScreen<User>
     {
-        public static void Load()
+       protected override void CreateEntity()
         {
-            Console.Clear();
-            Console.WriteLine("Gerenciamento de Usuários");
-            Console.WriteLine("1 - Listar Usuários");
-            Console.WriteLine("2 - Cadastrar Usuário");
-            Console.WriteLine("3 - Atualizar Usuário");
-            Console.WriteLine("4 - Deletar Usuário");
-            Console.WriteLine("5 - Voltar para o menu Principal");
-            Console.WriteLine("6 - Para sair");
-            Console.WriteLine();
-            Console.WriteLine("Digite uma opção: ");
-            short option = 0;
-            try
-            {
-                option = short.Parse(Console.ReadLine()!);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Opção inválida");
-                Console.WriteLine(e.Message);
-                Load();
-            }
+            new CreateUserScreen().Load();
+        }
 
-            switch (option)
-            {
-                case 1:
-                    ListUsersScreen.Load();
-                    break;
-                case 2:
-                    CreateUserScreen.Load();
-                    break;
-                case 3:
-                    UpdateUserScreen.Load();
-                    break;
-                case 4:
-                    DeleteUserScreen.Load();
-                    break;
-                case 5:
-                    new MainMenu().Load();
-                    break;
-                case 6:
-                    Environment.Exit(0);
-                    break;
-                default:
-                    Console.WriteLine("Opção inválida");
-                    Load();
-                    break;
-            }
+        protected override void UpdateEntity()
+        {
+            new UpdateUserScreen().Load();
         }
     }
 }

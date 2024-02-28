@@ -4,38 +4,21 @@ using Blog.Validation;
 
 namespace Blog.Screens.UserScreens
 {
-    public class UpdateUserScreen
+    public class UpdateUserScreen : UpdateEntityScreen<User>
     {
-        public static void Load()
+        private readonly MenuUserScreens _menuUserScreens = new();
+        private readonly UserRepository _repository = new();
+        protected override void UpdateEntity()
         {
-            Console.Clear();
-            Console.WriteLine("Atualizar um Usuário");
-            Console.WriteLine("----------------------------\n\n");
-            Console.WriteLine("Lista de Usuários: ");
-
-            ListUsersScreen.ListUsers();
-
-            Console.WriteLine("----------------------------\n\n");
             var id = InputHandler.GetId("Digite o id do usuário: ");
-            if (id == 0) Load();
-
-            UpdateUser(id);
-
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu de usuários");
-            Console.ReadKey();
-            MenuUserScreens.Load();
-        }
-
-        private static void UpdateUser(int id)
-        {
-            var repository = new UserRepository();
-            User? user = GetUser(id, repository);
+            if (id == 0) this.Load();
+            User? user = GetUser(id, _repository);
             if (user == null) return;
 
             
             try
             {
-                HandlerOptions(repository, user);
+                HandlerOptions(_repository, user);
             }
             catch (Exception e)
             {
@@ -44,7 +27,7 @@ namespace Blog.Screens.UserScreens
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Pressione qualquer tecla para voltar ao menu de usuários");
                 Console.ReadKey();
-                MenuUserScreens.Load();
+                _menuUserScreens.Load();
             }
         }
 
@@ -58,41 +41,41 @@ namespace Blog.Screens.UserScreens
             Console.WriteLine($"4 - Imagem: {user?.Image} ? ");
             Console.WriteLine($"5 - Slug: {user?.Slug} ? ");
             Console.WriteLine($"6 - Senha: {user?.PasswordHash} ? ");
-            var option = InputHandler.GetOption();
+            var option = Console.ReadLine();
 
             switch (option)
             {
-                case 1:
+                case "1":
                     Update(
                         UpdateUserName(user)
                         , "Nome atualizado com sucesso"
                         , repository);
                     break;
-                case 2:
+                case "2":
                     Update(
                         UpdateUserEmail(user)
                         , "Email atualizado com sucesso"
                         , repository);
                     break;
-                case 3:
+                case "3":
                     Update(
                         UpdateUserBio(user)
                         , "Biografia atualizada com sucesso"
                         , repository);
                     break;
-                case 4:
+                case "4":
                     Update(
                         UpdateUserImage(user)
                         , "Imagem atualizada com sucesso"
                         , repository);
                     break;
-                case 5:
+                case "5":
                     Update(
                         UpdateUserSlug(user)
                         , "Slug atualizado com sucesso"
                         , repository);
                     break;
-                case 6:
+                case "6":
                     Update(
                         UpdateUserPassword(user)
                         , "Senha atualizada com sucesso"

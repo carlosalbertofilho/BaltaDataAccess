@@ -34,7 +34,7 @@ namespace Blog.Screens
                     Console.WriteLine("Em desenvolvimento");
                     break;
                 case "2":
-                    MenuUserScreens.Load();
+                    new MenuUserScreens().Load();
                     break;
                 case "3":
                     MenuCategoryScreen.Load();
