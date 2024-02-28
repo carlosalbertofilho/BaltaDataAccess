@@ -25,6 +25,9 @@ namespace Blog.Screens.UserScreens
 
                 Console.WriteLine("Não foi possível atualizar o usuário");
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
                 Console.WriteLine("Pressione qualquer tecla para voltar ao menu de usuários");
                 Console.ReadKey();
                 _menuUserScreens.Load();
@@ -89,30 +92,16 @@ namespace Blog.Screens.UserScreens
 
         private static void Update(User user, string message, UserRepository repository)
         {
-            try
-            {
-                repository.Update(user);
-                Console.WriteLine($"Usuário Id: {user.Id}, {message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível atualizar o usuário");
-                Console.WriteLine(e.Message);
-            }
+            repository.Update(user);
+            Console.WriteLine($"Usuário Id: {user.Id}, {message}");
         }
 
         private static User? GetUser(int id, UserRepository repository)
         {
-            try
-            {
-                return repository.Get(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Id do usuário não encontrado");
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            var user = repository.Get(id);
+            return user == null 
+                ? throw new ArgumentNullException("Id do usuário não encontrado") 
+                : user;
         }
               
 

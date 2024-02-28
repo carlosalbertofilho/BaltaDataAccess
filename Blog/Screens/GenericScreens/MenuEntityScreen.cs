@@ -18,7 +18,7 @@ namespace Blog.Screens
             Console.WriteLine("0 - Voltar");
             Console.Write("\nOpção: ");
 
-            var option = Console.ReadLine();
+            var option = Console.ReadLine()!;
 
             switch (option)
             {

@@ -26,7 +26,7 @@ namespace Blog.Screens
             Console.WriteLine("9 - Sair");
             Console.Write("\nSelecione uma opção: ");
 
-            var option = Console.ReadLine();
+            var option = Console.ReadLine()!;
 
             switch (option)
             {
@@ -40,7 +40,7 @@ namespace Blog.Screens
                     MenuCategoryScreen.Load();
                     break;
                 case "4":
-                    MenuTagScreen.Load();
+                    new MenuTagScreen().Load();
                     break;
                 case "5":
                     new MenuRoleScreen().Load();

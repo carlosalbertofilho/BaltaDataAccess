@@ -6,14 +6,34 @@ namespace Blog.Screens.RoleScreens
 {
     public class UpdateRoleScreen : UpdateEntityScreen<Role>
     {
+        private readonly MenuRoleScreen _menuRoleScreen = new();
+        private readonly Repository<Role> _repository = new();
         protected override void UpdateEntity()
         {
-            var repository = new Repository<Role>();
             var id = InputHandler.GetId("Digite o Id do perfil: ");
 
-            var role = GetRoleById(id, repository);
+            var role = GetRoleById(id, _repository);
             if (role is null) return;
 
+            try
+            {
+                HandlerOptions(_repository, role);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Não foi possível atualizar o perfil");
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de perfis");
+                Console.ReadKey();
+                _menuRoleScreen.Load();
+            }
+        }
+
+        private static void HandlerOptions(Repository<Role> repository, Role? role)
+        {
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("O que vc deseja atualizar?");
 
@@ -39,7 +59,6 @@ namespace Blog.Screens.RoleScreens
                     Console.WriteLine("Operação cancelada");
                     break;
             }
-
         }
 
         private static Role UpdateRoleSlug(Role? role)
@@ -66,29 +85,15 @@ namespace Blog.Screens.RoleScreens
 
         private static void Update(Role role, string message, Repository<Role> repository)
         {
-            try
-            {
-                repository.Update(role);
-                Console.WriteLine($"Perfil ID: {role.Id}, {message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Não foi possível atualizar o Perfil)");
-                Console.WriteLine(e.Message);
-            }
+            repository.Update(role);
+            Console.WriteLine($"Perfil ID: {role.Id}, {message}");
         }
         private static Role? GetRoleById(int id, Repository<Role> repository)
         {
-            try
-            {
-                return repository.Get(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível encontrar o perfil");
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            var role = repository.Get(id);
+            return role == null
+                ? throw new ArgumentNullException("Perfil não encontrado") 
+                : role;
         }
     }
 }
