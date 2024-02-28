@@ -4,49 +4,33 @@ using Blog.Validation;
 
 namespace Blog.Screens.TagScreens
 {
-    internal static class UpdateTagScreen
+    public class UpdateTagScreen : UpdateEntityScreen<Tag>
     {
-        public static void Load()
+        private readonly MenuTagScreen _menuTagScreen = new();
+        private readonly Repository<Tag> _repository = new();
+        protected override void UpdateEntity()
         {
-            Console.Clear();
-            Console.WriteLine("Atualizar uma Tag");
-            Console.WriteLine("---------------------------\n\n");
-            Console.WriteLine("Lista de Tags: ");
-
-            ListTagsScreen.ListTags();
-
-            Console.WriteLine("---------------------------\n\n");
             var id = InputHandler.GetId("Digite o id da tag: ");
-
-            if (id == 0) Load();
-
-            UpdateTag(id);
-
-
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
-            Console.ReadKey();
-            MenuTagScreen.Load();
-        }
-        private static void UpdateTag(int id)
-        {
-            var repository = new Repository<Tag>();
-            Tag? tag = GetTag(id, repository);
-            if (tag is null) return;
+            if (id == 0) this.Load();
+            Tag? tag = GetTag(id, _repository);
+            if (tag == null) return;
 
             try
             {
-                HandlerOptions(repository, tag);
+                HandlerOptions(_repository, tag);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Não foi possível atualizar a tag");
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
                 Console.WriteLine("Pressione qualquer tecla para voltar ao menu de tags");
                 Console.ReadKey();
-                MenuTagScreen.Load();
+                _menuTagScreen.Load();
             }
         }
-
         private static void HandlerOptions(Repository<Tag> repository, Tag? tag)
         {
             Console.WriteLine("---------------------------\n\n");
@@ -54,15 +38,15 @@ namespace Blog.Screens.TagScreens
             Console.WriteLine($"1 - Nome: {tag?.Name} ? ");
             Console.WriteLine($"2 - Slug: {tag?.Slug} ? ");
 
-            switch (InputHandler.GetOption())
+            switch (Console.ReadLine()!)
             {
-                case 1:
+                case "1":
                     Update(
                         UpdateTagName(tag)
                         , "Nome atualizado com sucesso"
                         , repository);
                     break;
-                case 2:
+                case "2":
                     Update(
                         UpdateTagSlug(tag)
                         , "Slug atualizado com sucesso"
@@ -98,29 +82,15 @@ namespace Blog.Screens.TagScreens
 
         private static void Update(Tag tag, string message, Repository<Tag> repository)
         {
-            try
-            {
-                repository.Update(tag);
-                Console.WriteLine($"Tag Id: {tag.Id}, {message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível atualizar a tag");
-                Console.WriteLine(e.Message);
-            }
+            repository.Update(tag);
+            Console.WriteLine($"Tag Id: {tag.Id}, {message}");
         }
         private static Tag? GetTag(int id, Repository<Tag> repository)
         {
-            try
-            {
-                return repository.Get(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Id da tag não encontrado");
-                Console.WriteLine(e.Message);
-                return null;
-            }
+            var tag = repository.Get(id);
+            return tag == null 
+                ? throw new ArgumentNullException("Id da tag não encontrado") 
+                : tag;
         }
     }
 }

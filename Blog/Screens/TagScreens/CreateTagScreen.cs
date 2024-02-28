@@ -3,33 +3,10 @@ using Blog.Repositories;
 
 namespace Blog.Screens.TagScreens
 {
-    internal static class CreateTagScreen
+    internal class CreateTagScreen : CreateEntityScreen<Tag>
     {
-        public static void Load()
-        {
-            Console.Clear();
-            Console.WriteLine("Nova Tag");
-            Console.WriteLine("--------------------------------------");
-            try
-            {
-                CreateTag();
-            }
-            catch (Exception e)
-            {
-
-                Console.WriteLine("Não foi possível cadastrar a tag");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao Menu de Tags");
-                Console.ReadKey();
-                MenuTagScreen.Load();
-            }
-
-        }
-
-        private static void CreateTag()
+        private readonly Repository<Tag> _repository = new();
+        protected override void CreateEntity()
         {
             Console.WriteLine("Nome da Tag: ");
             var name = Console.ReadLine();
@@ -41,8 +18,8 @@ namespace Blog.Screens.TagScreens
             if (string.IsNullOrEmpty(slug))
                 throw new ArgumentNullException("A slug da tag é obrigatória");
 
-            var repository = new Repository<Tag>();
-            repository.Create(new Tag
+            
+            _repository.Create(new Tag
             {
                 Name = name,
                 Slug = slug,
