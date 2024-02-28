@@ -1,4 +1,5 @@
 ﻿
+using Blog.Repositories;
 using Dapper.Contrib.Extensions;
 
 namespace Blog.Models
@@ -15,5 +16,32 @@ namespace Blog.Models
         public int CategoryId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdate { get; set; }
+
+        override public string ToString()
+        {
+            return $"Post: {Id}" +
+                $"\n\tTitulo: {Title}" +
+                $"\n\tAutor: {GetAuthorName(AuthorId)}" +
+                $"\n\tCategoria: {GetCategoryName(CategoryId)}" +
+                $"\n\tCriado em: {CreatedAt}" +
+                $"\n\tUltima atualização: {LastUpdate}";
+        }
+
+        private static string? GetAuthorName(int id)
+        {
+            var repository = new Repository<User>();
+            var user = repository.Get(id);
+            return user != null
+                ? user.Name
+                : string.Empty;
+        }
+        private static string? GetCategoryName(int id)
+        {
+            var repository = new Repository<Category>();
+            var category = repository.Get(id);
+            return category != null
+                ? category.Name
+                : string.Empty;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Blog.Screens.CategoryScreens;
+using Blog.Screens.PostScreens;
 using Blog.Screens.RoleScreens;
 using Blog.Screens.TagScreens;
 using Blog.Screens.UserScreens;
@@ -31,7 +32,7 @@ namespace Blog.Screens
             switch (option)
             {
                 case "1":
-                    Console.WriteLine("Em desenvolvimento");
+                    new MenuPostScreens().Load();
                     break;
                 case "2":
                     new MenuUserScreens().Load();
