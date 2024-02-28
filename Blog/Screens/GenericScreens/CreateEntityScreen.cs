@@ -1,13 +1,16 @@
 ﻿using Blog.Models;
+using Blog.Repositories;
+using System.Runtime.CompilerServices;
 
 namespace Blog.Screens
 {
     public class CreateEntityScreen<T> where T : class, IEntity, new()
     {
+        private readonly MenuEntityScreen<T> _menuEntityScreen = new();
         public virtual void Load()
         {
             Console.Clear();
-            Console.WriteLine($"Novo {typeof(T).Name}");
+            Console.WriteLine($"Criando Novo {typeof(T).Name}");
             Console.WriteLine("--------------");
 
             try
@@ -22,15 +25,15 @@ namespace Blog.Screens
             }
             finally
             {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu");
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Principal");
                 Console.ReadKey();
-                new CreateEntityScreen<T>().Load();
+                _menuEntityScreen.Load();
             }
         }
 
         protected virtual void CreateEntity()
         {
-            throw new NotImplementedException();
+            return;
         }
     }
 }

@@ -4,10 +4,15 @@ namespace Blog.Screens
 {
     public class UpdateEntityScreen<T> where T : class, IEntity, new()
     {
+        private readonly MenuEntityScreen<T> _menuEntityScreen = new();
         public virtual void Load()
         {
             Console.Clear();
             Console.WriteLine($"Novo {typeof(T).Name}");
+            Console.WriteLine("--------------");
+
+            ListEntitiesScreen<T>.ListEntities();
+
             Console.WriteLine("--------------");
 
             try
@@ -22,9 +27,9 @@ namespace Blog.Screens
             }
             finally
             {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu");
+                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Principal");
                 Console.ReadKey();
-                new CreateEntityScreen<T>().Load();
+                _menuEntityScreen.Load();
             }
         }
 

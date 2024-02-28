@@ -8,7 +8,7 @@ static void Main()
     Database.Connection = DbConnection.GetConnection();
     DbConnection.OpenConnection();
 
-    MainMenu.Load();
-    
+    new MainMenu().Load();
+
     DbConnection.CloseConnection();
 }

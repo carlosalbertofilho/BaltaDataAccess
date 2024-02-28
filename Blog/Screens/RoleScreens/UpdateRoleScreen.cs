@@ -4,38 +4,9 @@ using Blog.Validation;
 
 namespace Blog.Screens.RoleScreens
 {
-    public static class UpdateRoleScreen
+    public class UpdateRoleScreen : UpdateEntityScreen<Role>
     {
-        public static void Load()
-        {
-            Console.Clear();
-            Console.WriteLine("Atualizar Perfil");
-            Console.WriteLine("--------------");
-
-            ListRolesScreen.ListRoles();
-
-            Console.WriteLine("--------------");
-
-            try
-            {
-                UpdateRole();
-            }
-            catch (Exception e)
-            {
-
-                Console.WriteLine("Não foi possível atualizar o Perfil");
-                Console.WriteLine(e.Message);
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Perfis");
-                Console.ReadKey();
-                MenuRoleScreen.Load();
-            }
-
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu Perfis");
-            Console.ReadKey();
-            MenuRoleScreen.Load();
-        }
-
-        private static void UpdateRole()
+        protected override void UpdateEntity()
         {
             var repository = new Repository<Role>();
             var id = InputHandler.GetId("Digite o Id do perfil: ");
@@ -68,6 +39,7 @@ namespace Blog.Screens.RoleScreens
                     Console.WriteLine("Operação cancelada");
                     break;
             }
+
         }
 
         private static Role UpdateRoleSlug(Role? role)

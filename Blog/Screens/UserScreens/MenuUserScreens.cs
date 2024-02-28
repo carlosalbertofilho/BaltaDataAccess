@@ -42,7 +42,7 @@ namespace Blog.Screens.UserScreens
                     DeleteUserScreen.Load();
                     break;
                 case 5:
-                    MainMenu.Load();
+                    new MainMenu().Load();
                     break;
                 case 6:
                     Environment.Exit(0);

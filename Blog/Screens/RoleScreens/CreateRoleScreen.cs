@@ -3,33 +3,9 @@ using Blog.Repositories;
 
 namespace Blog.Screens.RoleScreens
 {
-    public static class CreateRoleScreen
+    public class CreateRoleScreen : CreateEntityScreen<Role>
     {
-        public static void Load()
-        {
-            Console.Clear();
-            Console.WriteLine("Novo Perfil");
-            Console.WriteLine("--------------");
-
-            try
-            {
-                CreateRole();
-            }
-            catch (Exception e)
-            {
-
-                Console.WriteLine("Não foi possível cadastrar o perfil");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Perfis");
-                Console.ReadKey();
-                MenuRoleScreen.Load();
-            }
-        }
-
-        private static void CreateRole()
+        protected override void CreateEntity()
         {
             Console.WriteLine("Digite o nome do perfil: ");
             var name = Console.ReadLine();

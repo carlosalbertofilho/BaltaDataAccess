@@ -11,12 +11,12 @@ namespace Blog.Screens
             Console.WriteLine("--------------");
             Console.WriteLine("O que deseja fazer?");
             Console.WriteLine();
-            Console.WriteLine("1 - Listar");
-            Console.WriteLine("2 - Cadastra");
-            Console.WriteLine("3 - Atualizar");
-            Console.WriteLine("4 - Deletar");
+            Console.WriteLine($"1 - {typeof(T).Name} - Listar");
+            Console.WriteLine($"2 - {typeof(T).Name} - Cadastra");
+            Console.WriteLine($"3 - {typeof(T).Name} - Atualizar");
+            Console.WriteLine($"4 - {typeof(T).Name} - Deletar");
             Console.WriteLine("0 - Voltar");
-            Console.WriteLine();
+            Console.Write("\nOpção: ");
 
             var option = Console.ReadLine();
 
@@ -24,18 +24,26 @@ namespace Blog.Screens
             {
                 case "1":
                     ListEntitiesScreen<T>.ListEntities();
+                    Console.ReadKey();
+                    new MenuEntityScreen<T>().Load();
                     break;
                 case "2":
                     CreateEntity();
+                    Console.ReadKey();
+                    new MenuEntityScreen<T>().Load();
                     break;
                 case "3":
                     UpdateEntity();
+                    Console.ReadKey();
+                    new MenuEntityScreen<T>().Load();
                     break;
                 case "4":
                     DeleteEntityScreen<T>.Load();
+                    Console.ReadKey();
+                    new MenuEntityScreen<T>().Load();
                     break;
                 case "0":
-                    MainMenu.Load();
+                    new MainMenu().Load();
                     break;
                 default:
                     Console.WriteLine("Opção inválida");

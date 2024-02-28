@@ -6,9 +6,9 @@ using Blog.Validation;
 
 namespace Blog.Screens
 {
-    public static class MainMenu
+    public class MainMenu
     {
-        public static void Load()
+        public void Load()
         {
             Console.Clear();
             Console.WriteLine("Meu Blog");
@@ -24,37 +24,37 @@ namespace Blog.Screens
             Console.WriteLine("7 - Vincular post/tag");
             Console.WriteLine("8 - Relatórios");
             Console.WriteLine("9 - Sair");
-            Console.WriteLine("Selecione uma opção: ");
-            var option = InputHandler.GetOption();
-            if (option == 0) Load();
+            Console.Write("\nSelecione uma opção: ");
+
+            var option = Console.ReadLine();
 
             switch (option)
             {
-                case 1:
+                case "1":
                     Console.WriteLine("Em desenvolvimento");
                     break;
-                case 2:
+                case "2":
                     MenuUserScreens.Load();
                     break;
-                case 3:
+                case "3":
                     MenuCategoryScreen.Load();
                     break;
-                case 4:
+                case "4":
                     MenuTagScreen.Load();
                     break;
-                case 5:
-                    MenuRoleScreen.Load();
+                case "5":
+                    new MenuRoleScreen().Load();
                     break;
-                case 6:
+                case "6":
                     Console.WriteLine("Em desenvolvimento");
                     break;
-                case 7:
+                case "7":
                     Console.WriteLine("Em desenvolvimento");
                     break;
-                case 8:
+                case "8":
                     Console.WriteLine("Em desenvolvimento");
                     break;
-                case 9:
+                case "9":
                     Environment.Exit(0);
                     break;
                 default:
