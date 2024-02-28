@@ -37,7 +37,7 @@ namespace Blog.Screens
                     new MenuUserScreens().Load();
                     break;
                 case "3":
-                    MenuCategoryScreen.Load();
+                    new MenuCategoryScreen().Load();
                     break;
                 case "4":
                     new MenuTagScreen().Load();

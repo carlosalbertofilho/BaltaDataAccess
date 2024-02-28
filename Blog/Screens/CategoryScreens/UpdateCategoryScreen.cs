@@ -4,48 +4,21 @@ using Blog.Validation;
 
 namespace Blog.Screens.CategoryScreens
 {
-    public static class UpdateCategoryScreen
+    public class UpdateCategoryScreen : UpdateEntityScreen<Category>
     {
-        public static void Load()
+        private readonly Repository<Category> _repository = new();
+
+        protected override void UpdateEntity()
         {
-            Console.Clear();
-            Console.WriteLine("Atualizar Categoria");
-            Console.WriteLine("--------------");
-
-            ListCategoriesScreen.ListCategories();
-
-            Console.WriteLine("--------------");
-
-            UpdateCategory();
-
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu Categorias");
-            Console.ReadLine();
-            MenuCategoryScreen.Load();
-        }
-
-        private static void UpdateCategory()
-        {
-            var repository = new Repository<Category>();
             var id = InputHandler.GetId("Digite o Id da categoria: ");
 
-            var category = GetCategoryById(id, repository);
+            var category = GetCategory(id, _repository);
             if (category is null) return;
-            try
-            {
-                HandlerOptions(repository, category);
-            }
-            catch (Exception e)
-            {
 
-                Console.WriteLine("Não foi possível atualizar o Categoria");
-                Console.WriteLine(e.Message);
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu de categorias");
-                Console.ReadKey();
-                MenuCategoryScreen.Load();
-            }
+            HandlerOptions(category, _repository);
         }
-
-        private static void HandlerOptions(Repository<Category> repository, Category category)
+            
+        private static void HandlerOptions(Category category, Repository<Category> repository)
         {
             Console.WriteLine("---------------------------\n\n");
             Console.WriteLine("O que vc deseja atualizar?");
@@ -54,20 +27,22 @@ namespace Blog.Screens.CategoryScreens
             Console.WriteLine($"2 - Slug: {category?.Slug} ? ");
 
 
-            switch (InputHandler.GetOption())
+            switch (Console.ReadLine()!)
             {
-                case 1:
-                    Update(
-                        ChangeCategoryName(category)
-                        , "Nome atualizado com sucesso!"
-                        , repository);
+                case "1":
+                    if (category is not null)
+                        Update(
+                            ChangeCategoryName(category)
+                            , "Nome atualizado com sucesso"
+                            , repository);
 
                     break;
-                case 2:
-                    Update(
-                        ChangeCategorySlug(category)
-                        , "Slug atualizado com sucesso"
-                        , repository);
+                case "2":
+                    if (category is not null)
+                        Update(
+                            ChangeCategorySlug(category)
+                            , "Slug atualizado com sucesso"
+                            , repository);
 
                     break;
                 default:
@@ -76,6 +51,19 @@ namespace Blog.Screens.CategoryScreens
             }
         }
 
+        private static void Update(Category category, string message, Repository<Category> repository)
+        {
+            repository.Update(category);
+            Console.WriteLine($"Categoria Id: {category.Id}, {message}");
+        }
+
+        private Category GetCategory(int id, Repository<Category> repository)
+        {
+            var category = repository.Get(id);
+            return category == null
+                ? throw new ArgumentNullException("Id da categoria não encontrado")
+                : category;
+        }
         private static Category ChangeCategorySlug(Category category)
         {
             Console.WriteLine("Digite a Slug da categoria: ");
@@ -97,32 +85,5 @@ namespace Blog.Screens.CategoryScreens
             category.Name = name;
             return category;
         }
-
-        private static Category? GetCategoryById(int id, Repository<Category> repository)
-        {
-            try
-            {
-                return repository.Get(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível buscar a categoria");
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-        private static void Update(Category category, string message, Repository<Category> repository)
-        {
-            try
-            {
-                repository.Update(category);
-                Console.WriteLine($"Categoria Id: {category.Id}, {message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível atualizar a categoria");
-                Console.WriteLine(e.Message);
-            }
-        }   
     }
 }

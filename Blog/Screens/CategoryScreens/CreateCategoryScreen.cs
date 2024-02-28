@@ -4,32 +4,11 @@ using Blog.Repositories;
 
 namespace Blog.Screens.CategoryScreens
 {
-    public static class CreateCategoryScreen
+    public class CreateCategoryScreen : CreateEntityScreen<Category>
     {
-        public static void Load()
-        {
-            Console.Clear();
-            Console.WriteLine("Criar Categoria");
-            Console.WriteLine("--------------");
-
-            try
-            {
-                CreateCategory();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Não foi possível cadastrar a categoria");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Pressione qualquer tecla para voltar ao menu Categorias");
-                Console.ReadKey();
-                MenuCategoryScreen.Load();
-            }
-        }
-
-        private static void CreateCategory()
+        private readonly Repository<Category> _repository = new();
+        
+        protected override void CreateEntity()
         {
             Console.WriteLine("Digite o título da categoria: ");
             var name = Console.ReadLine();
@@ -41,8 +20,7 @@ namespace Blog.Screens.CategoryScreens
             if (string.IsNullOrEmpty(slug))
                 throw new ArgumentNullException("A slug da categoria é obrigatória");
 
-            var repository = new Repository<Category>();
-            repository.Create(new Category
+            _repository.Create(new Category
             {
                 Name = name,
                 Slug = slug,

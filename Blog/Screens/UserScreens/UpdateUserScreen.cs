@@ -29,7 +29,7 @@ namespace Blog.Screens.UserScreens
             Console.WriteLine($"4 - Imagem: {user?.Image} ? ");
             Console.WriteLine($"5 - Slug: {user?.Slug} ? ");
             Console.WriteLine($"6 - Senha: {user?.PasswordHash} ? ");
-            var option = Console.ReadLine();
+            var option = Console.ReadLine()!;
 
             switch (option)
             {
