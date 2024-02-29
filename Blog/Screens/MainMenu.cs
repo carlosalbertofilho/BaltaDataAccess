@@ -9,6 +9,12 @@ namespace Blog.Screens
 {
     public class MainMenu
     {
+        private readonly MenuPostScreens _menuPostScreens = new();
+        private readonly MenuUserScreens _menuUserScreens = new();
+        private readonly MenuCategoryScreen _menuCategoryScreen = new();
+        private readonly MenuTagScreen _menuTagScreen = new();
+        private readonly MenuRoleScreen _menuRoleScreen = new();
+
         public void Load()
         {
             Console.Clear();
@@ -32,19 +38,19 @@ namespace Blog.Screens
             switch (option)
             {
                 case "1":
-                    new MenuPostScreens().Load();
+                    _menuPostScreens.Load();
                     break;
                 case "2":
-                    new MenuUserScreens().Load();
+                    _menuUserScreens.Load();
                     break;
                 case "3":
-                    new MenuCategoryScreen().Load();
+                    _menuCategoryScreen.Load();
                     break;
                 case "4":
-                    new MenuTagScreen().Load();
+                    _menuTagScreen.Load();
                     break;
                 case "5":
-                    new MenuRoleScreen().Load();
+                    _menuRoleScreen.Load();
                     break;
                 case "6":
                     Console.WriteLine("Em desenvolvimento");

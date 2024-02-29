@@ -35,7 +35,7 @@ namespace Blog.Screens
 
         protected virtual void UpdateEntity()
         {
-            throw new System.NotImplementedException();
+            return;
         }
     }
 }
